@@ -1,7 +1,57 @@
 import { createBrowserRouter } from "react-router-dom";
+import Home from "../components/Home/Home";
+import MainLayout from "../components/MainLayout/MainLayout";
+import Cart from "../components/Cart/Cart";
+import WishList from "../components/WishList/WishList";
+import Products from "../components/Products/Products";
+import Categories from "../components/Categories/Categories";
+import Brands from "../components/Brands/Brands";
+import NotFound from "../components/NotFound/NotFound";
+import Register from "../components/Register/Register";
+import Login from "../components/Login/Login";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    Component: MainLayout,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "/cart",
+        Component: Cart,
+      },
+      {
+        path: "/wishList",
+        Component: WishList,
+      },
+      {
+        path: "/products",
+        Component: Products,
+      },
+      {
+        path: "/categories",
+        Component: Categories,
+      },
+      {
+        path: "/brands",
+        Component: Brands,
+      },
+
+      {
+        path: "/login",
+        Component: Login,
+      },
+      {
+        path: "/register",
+        Component: Register,
+      },
+      {
+        path: "*",
+        Component: NotFound,
+      },
+    ],
   },
 ]);
