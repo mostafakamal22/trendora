@@ -1,20 +1,36 @@
-import { useFormik } from "formik";
+import { FormikValues, useFormik } from "formik";
 import { registerSchema } from "../../schema/register";
+import postData from "../../utils/postData";
 
 export default function Register() {
-  const { getFieldProps, handleSubmit, errors, touched } = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      rePassword: "",
-      phone: "",
-    },
-    validationSchema: registerSchema,
-    onSubmit: (values) => {
-      console.log("Register Data:", values);
-    },
-  });
+  const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
+    useFormik({
+      initialValues: {
+        name: "",
+        email: "",
+        password: "",
+        rePassword: "",
+        phone: "",
+      },
+      validationSchema: registerSchema,
+      onSubmit: handleRegister,
+    });
+
+  async function handleRegister(values: FormikValues) {
+    console.log("Register Data:", values);
+
+    try {
+      const res = await postData({ url: "/auth/signup", data: values });
+
+      if (res) {
+        console.log(res.data);
+      } else {
+        console.error("No response received");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -97,9 +113,10 @@ export default function Register() {
 
         <button
           type="submit"
-          className="bg-orange-500 text-white p-2 w-full rounded-md"
+          className="bg-orange-500 text-white p-2 w-full rounded-md disabled:opacity-50"
+          disabled={isSubmitting}
         >
-          Register
+          {isSubmitting ? "Loading..." : "Register"}
         </button>
       </form>
     </div>
