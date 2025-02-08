@@ -77,3 +77,39 @@ export interface WishList {
   count: number;
   data: Product[];
 }
+
+export interface ProductElement {
+  count: number;
+  _id: string;
+  product: ProductProduct;
+  price: number;
+}
+
+export interface ProductProduct {
+  subcategory: Category[];
+  _id: string;
+  title: string;
+  quantity: number;
+  imageCover: string;
+  category: Category;
+  brand: Brand;
+  ratingsAverage: number;
+  id: string;
+}
+
+export interface Cart {
+  status: string;
+  numOfCartItems: number;
+  cartId: string;
+  data: CartData;
+}
+
+export interface CartData {
+  _id: string;
+  cartOwner: string;
+  products: ProductElement[];
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+  totalCartPrice: number;
+}
