@@ -71,3 +71,9 @@ export interface Brands {
   metadata: Metadata;
   data: Brand[];
 }
+
+export interface WishList {
+  status: string;
+  count: number;
+  data: Product[];
+}

@@ -1,28 +1,16 @@
-import axios, { AxiosRequestHeaders, AxiosResponse } from "axios";
-import handleError from "./handleError";
+import axios from "axios";
 
 type Props = {
   url: string;
-  headers?: AxiosRequestHeaders;
+  token?: string;
 };
 
-export default async function deleteData<T>({
-  url,
+export default async function deleteData<T>({ url, token }: Props): Promise<T> {
+  axios.defaults.headers.common["token"] = token;
 
-  headers,
-}: Props): Promise<AxiosResponse<T, unknown> | void> {
-  try {
-    const res = await axios.delete(
-      `${import.meta.env.VITE_API_BASE_URL}${url}`,
-      {
-        headers,
-      }
-    );
+  const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}${url}`);
 
-    console.log(res.data);
+  console.log(res.data);
 
-    return res;
-  } catch (error: unknown) {
-    handleError(error);
-  }
+  return res.data;
 }

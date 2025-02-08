@@ -1,13 +1,21 @@
 import { Product } from "../../types";
 
+interface ProductCardProps extends Product {
+  onAddToWishlist: (id: string) => void;
+  onAddToCart: (id: string) => void;
+}
+
 export default function ProductCard({
+  id,
   title,
   imageCover,
   ratingsAverage,
   category,
   price,
   priceAfterDiscount,
-}: Product) {
+  onAddToCart,
+  onAddToWishlist,
+}: ProductCardProps) {
   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 p-4">
       <img
@@ -32,10 +40,16 @@ export default function ProductCard({
         </div>
 
         <div className="mt-4 flex gap-2">
-          <button className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+          <button
+            onClick={() => onAddToWishlist(id)}
+            className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+          >
             Add to Wishlist
           </button>
-          <button className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+          <button
+            onClick={() => onAddToCart(id)}
+            className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          >
             Add to Cart
           </button>
         </div>

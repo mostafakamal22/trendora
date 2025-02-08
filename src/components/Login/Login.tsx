@@ -29,8 +29,8 @@ export default function Login() {
         data: values,
       });
 
-      if (res && res?.data?.token) {
-        setToken(res?.data?.token);
+      if (res && res.token) {
+        setToken(res.token);
 
         navigate("/");
       } else {

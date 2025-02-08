@@ -1,17 +1,14 @@
-import axios, { AxiosRequestHeaders } from "axios";
+import axios from "axios";
 
 type Props = {
   url: string;
-  headers?: AxiosRequestHeaders;
+  token?: string;
 };
 
-export default async function fetchData<T>({
-  url,
-  headers,
-}: Props): Promise<T> {
-  const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${url}`, {
-    headers,
-  });
+export default async function fetchData<T>({ url, token }: Props): Promise<T> {
+  axios.defaults.headers.common["token"] = token;
+
+  const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${url}`);
 
   console.log(res.data);
 

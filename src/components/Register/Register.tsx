@@ -29,7 +29,7 @@ export default function Register() {
         data: values,
       });
 
-      if (res && res?.data?.token) {
+      if (res && res?.token) {
         navigate("/login");
       } else {
         console.error("No response received");

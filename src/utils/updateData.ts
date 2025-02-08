@@ -1,30 +1,24 @@
-import axios, { AxiosRequestHeaders, AxiosResponse } from "axios";
-import handleError from "./handleError";
+import axios from "axios";
 
 type Props = {
   url: string;
   data: object;
-  headers?: AxiosRequestHeaders;
+  token?: string;
 };
 
 export default async function updateData<T>({
   url,
   data,
-  headers,
-}: Props): Promise<AxiosResponse<T, unknown> | void> {
-  try {
-    const res = await axios.put(
-      `${import.meta.env.VITE_API_BASE_URL}${url}`,
-      data,
-      {
-        headers,
-      }
-    );
+  token,
+}: Props): Promise<T> {
+  axios.defaults.headers.common["token"] = token;
 
-    console.log(res.data);
+  const res = await axios.put(
+    `${import.meta.env.VITE_API_BASE_URL}${url}`,
+    data
+  );
 
-    return res;
-  } catch (error: unknown) {
-    handleError(error);
-  }
+  console.log(res.data);
+
+  return res.data;
 }
