@@ -1,3 +1,9 @@
+import Categories from "../Categories/Categories";
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Categories />
+    </div>
+  );
 }
