@@ -61,6 +61,10 @@ export default function Wishlist() {
 
       console.log(res);
 
+      const removedItem = await onRemove(id);
+
+      console.log(removedItem);
+
       refetch();
     } catch (error) {
       handleError(error);
