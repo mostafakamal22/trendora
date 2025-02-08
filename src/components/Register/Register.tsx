@@ -1,8 +1,12 @@
 import { FormikValues, useFormik } from "formik";
 import { registerSchema } from "../../schema/register";
+import { useNavigate } from "react-router-dom";
 import postData from "../../utils/postData";
+import { LoginResponse } from "../../types";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
     useFormik({
       initialValues: {
@@ -20,10 +24,13 @@ export default function Register() {
     console.log("Register Data:", values);
 
     try {
-      const res = await postData({ url: "/auth/signup", data: values });
+      const res = await postData<LoginResponse>({
+        url: "/auth/signup",
+        data: values,
+      });
 
-      if (res) {
-        console.log(res.data);
+      if (res && res?.data?.token) {
+        navigate("/login");
       } else {
         console.error("No response received");
       }

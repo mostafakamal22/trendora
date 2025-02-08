@@ -1,8 +1,15 @@
 import { FormikValues, useFormik } from "formik";
 import { loginSchema } from "../../schema/login";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { useNavigate } from "react-router-dom";
 import postData from "../../utils/postData";
+import { LoginResponse } from "../../types";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const [, setToken] = useLocalStorage("token");
+
   const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
     useFormik({
       initialValues: {
@@ -17,10 +24,15 @@ export default function Login() {
     console.log("Login Data:", values);
 
     try {
-      const res = await postData({ url: "/auth/signin", data: values });
+      const res = await postData<LoginResponse>({
+        url: "/auth/signin",
+        data: values,
+      });
 
-      if (res) {
-        console.log(res.data);
+      if (res && res?.data?.token) {
+        setToken(res?.data?.token);
+
+        navigate("/");
       } else {
         console.error("No response received");
       }

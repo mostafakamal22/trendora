@@ -7,11 +7,11 @@ type Props = {
   headers?: AxiosRequestHeaders;
 };
 
-export default async function updateData({
+export default async function updateData<T>({
   url,
   data,
   headers,
-}: Props): Promise<AxiosResponse<unknown, unknown> | void> {
+}: Props): Promise<AxiosResponse<T, unknown> | void> {
   try {
     const res = await axios.put(
       `${import.meta.env.VITE_API_BASE_URL}${url}`,

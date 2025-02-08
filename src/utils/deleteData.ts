@@ -6,11 +6,11 @@ type Props = {
   headers?: AxiosRequestHeaders;
 };
 
-export default async function deleteData({
+export default async function deleteData<T>({
   url,
 
   headers,
-}: Props): Promise<AxiosResponse<unknown, unknown> | void> {
+}: Props): Promise<AxiosResponse<T, unknown> | void> {
   try {
     const res = await axios.delete(
       `${import.meta.env.VITE_API_BASE_URL}${url}`,
