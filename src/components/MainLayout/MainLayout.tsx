@@ -10,7 +10,7 @@ export default function MainLayout() {
     <>
       <Navbar />
 
-      <main className="container text-center">
+      <main className="container text-center mx-auto">
         <Outlet />
       </main>
 
