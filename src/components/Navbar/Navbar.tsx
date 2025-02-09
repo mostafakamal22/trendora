@@ -3,12 +3,13 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 export default function Navbar() {
   const [token, setToken] = useLocalStorage("token");
+  const [, setUserId] = useLocalStorage("userId");
 
   const navigate = useNavigate();
 
   function handleLogout() {
     setToken(null);
-
+    setUserId(null);
     navigate("/login");
   }
 

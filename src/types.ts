@@ -8,6 +8,19 @@ export type LoginResponse = {
   token?: string;
 };
 
+export interface VerfiyToken {
+  message: string;
+  decoded: Decoded;
+}
+
+export interface Decoded {
+  id: string;
+  name: string;
+  role: string;
+  iat: number;
+  exp: number;
+}
+
 export interface Metadata {
   currentPage: number;
   numberOfPages: number;

@@ -1,38 +1,43 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useEffect, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { VerfiyToken } from "../types";
+import fetchData from "../utils/fetchData";
 
 export default function useProtectedRoutes() {
-  const [token] = useLocalStorage("token");
-
-  console.log("Stored Token:", token);
-
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+  const [token, setToken] = useLocalStorage("token");
+  const [, setUserId] = useLocalStorage("userId");
+  const [loading, setLoading] = useState(true);
 
   const publicRoutes = useMemo(
-    () => ["/login", "/login/", "/register", "/register/"],
+    () => ["/login", "/register", "/login/", "/register/"],
     []
   );
 
   useEffect(() => {
-    const isPathnamePublic = publicRoutes.includes(pathname);
+    const verifyToken = async () => {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
-    console.log(
-      "Is Public Route:",
-      isPathnamePublic,
-      "Current Path:",
-      pathname
-    );
+      try {
+        const res = await fetchData<VerfiyToken>({
+          url: "/auth/verifyToken",
+          token: token as string,
+        });
 
-    if (token && isPathnamePublic) {
-      navigate("/", { replace: true });
-    }
+        console.log("Verify Response", res);
+        setUserId(res?.decoded?.id);
+      } catch (error) {
+        console.error("Token verification failed:", error);
+        setToken(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (!token && !isPathnamePublic) {
-      navigate("/login", { replace: true });
-    }
-  }, [token, navigate, pathname, publicRoutes]);
+    verifyToken();
+  }, [token, setToken, setUserId]);
 
-  return null;
+  return { loading, token, publicRoutes };
 }
