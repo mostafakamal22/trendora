@@ -9,9 +9,7 @@ import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
 import handleError from "../../utils/handleError";
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import "swiper/swiper-bundle.css";
 
 export default function ProductDetails() {
   const [token] = useLocalStorage("token");
@@ -82,17 +80,17 @@ export default function ProductDetails() {
         navigation
         pagination={pagination}
         modules={[Navigation, Pagination]}
-        className="mySwiper overflow-hidden"
+        className="mySwiper overflow-hidden rounded-md"
       >
-        {product?.images.map((image, index) => (
+        {product?.images?.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={product.title} className="w-full" />
+            <img src={image} alt={product?.title} className="w-full" />
           </SwiperSlide>
         ))}
       </Swiper>
 
       <section className="max-w-[35rem] flex justify-stretch flex-col p-6 text-left lg:flex-basis-1/2">
-        <h3 className="font-semibold">{product?.brand.name}</h3>
+        <h3 className="font-semibold">{product?.brand?.name}</h3>
         <h2 className="font-bold">{product?.title}</h2>
         <p>{product?.description}</p>
 
@@ -106,7 +104,7 @@ export default function ProductDetails() {
         </div>
 
         <button
-          onClick={() => onAddToCart(product._id)}
+          onClick={() => onAddToCart(product?._id)}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-auto"
         >
           Add to Cart
