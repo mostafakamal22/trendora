@@ -13,6 +13,7 @@ import Checkout from "../components/Checkout/Checkout";
 import Orders from "../components/Orders/Orders";
 import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
+import ProductDetails from "../components/ProductDetails/ProductDetails";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "/products",
         Component: Products,
+      },
+      {
+        path: "/productDetails/:id",
+        Component: ProductDetails,
       },
       {
         path: "/categories",

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Product } from "../../types";
 
 interface ProductCardProps extends Product {
@@ -17,7 +18,10 @@ export default function ProductCard({
   onAddToWishlist,
 }: ProductCardProps) {
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 p-4">
+    <Link
+      to={`/productDetails/${id}`}
+      className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 p-4"
+    >
       <img
         src={imageCover}
         alt={title}
@@ -54,6 +58,6 @@ export default function ProductCard({
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -94,11 +94,11 @@ export interface WishList {
 export interface ProductElement {
   count: number;
   _id: string;
-  product: ProductProduct;
+  product: ProductMinimalDetails;
   price: number;
 }
 
-export interface ProductProduct {
+export interface ProductMinimalDetails {
   subcategory: Category[];
   _id: string;
   title: string;
