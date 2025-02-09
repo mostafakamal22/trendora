@@ -9,7 +9,16 @@ export default function useProtectedRoutes() {
   const [loading, setLoading] = useState(true);
 
   const publicRoutes = useMemo(
-    () => ["/login", "/register", "/login/", "/register/"],
+    () => [
+      "/login",
+      "/register",
+      "/login/",
+      "/register/",
+      "/reset-password",
+      "/reset-password/",
+      "/forgot-password",
+      "/forgot-password/",
+    ],
     []
   );
 

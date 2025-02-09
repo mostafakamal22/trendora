@@ -11,6 +11,8 @@ import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
 import Checkout from "../components/Checkout/Checkout";
 import Orders from "../components/Orders/Orders";
+import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
+import ResetPassword from "../components/ResetPassword/ResetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
+      },
+      {
+        path: "/forgot-password",
+        Component: ForgotPassword,
+      },
+      {
+        path: "/reset-password",
+        Component: ResetPassword,
       },
       {
         path: "*",

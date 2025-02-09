@@ -7,10 +7,9 @@ import { LoginResponse } from "../../types";
 
 export default function Login() {
   const navigate = useNavigate();
-
   const [, setToken] = useLocalStorage("token");
 
-  const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
+  const { getFieldProps, handleSubmit, errors, touched, isSubmitting, values } =
     useFormik({
       initialValues: {
         email: "",
@@ -31,13 +30,30 @@ export default function Login() {
 
       if (res && res.token) {
         setToken(res.token);
-
         navigate("/");
       } else {
         console.error("No response received");
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleForgotPassword() {
+    if (!values.email) {
+      alert("Please enter your email before requesting a password reset.");
+      return;
+    }
+
+    try {
+      await postData({
+        url: "/auth/forgotPasswords",
+        data: { email: values.email },
+      });
+
+      navigate("/forgot-password", { state: { email: values.email } });
+    } catch (error) {
+      console.error("Forgot password request failed:", error);
     }
   }
 
@@ -65,7 +81,6 @@ export default function Login() {
 
         <div className="mb-3">
           <label htmlFor="password"> Password:</label>
-
           <input
             type="password"
             id="password"
@@ -84,6 +99,14 @@ export default function Login() {
           disabled={isSubmitting}
         >
           {isSubmitting ? "Loading..." : "Login"}
+        </button>
+
+        <button
+          type="button"
+          className="text-blue-500 mt-3 block w-full text-center"
+          onClick={handleForgotPassword}
+        >
+          Forgot Password?
         </button>
       </form>
     </div>
