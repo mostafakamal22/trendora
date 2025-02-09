@@ -9,7 +9,9 @@ import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
 import handleError from "../../utils/handleError";
 
-import "swiper/swiper-bundle.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export default function ProductDetails() {
   const [token] = useLocalStorage("token");
