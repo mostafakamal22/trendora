@@ -113,3 +113,60 @@ export interface CartData {
   __v: number;
   totalCartPrice: number;
 }
+
+export interface Checkout {
+  status: string;
+  session: CheckoutSession;
+}
+
+export interface CheckoutSession {
+  url: string;
+  success_url: string;
+  cancel_url: string;
+}
+
+export type Orders = Order[];
+
+export interface Order {
+  shippingAddress?: ShippingAddress;
+  taxPrice: number;
+  shippingPrice: number;
+  totalOrderPrice: number;
+  paymentMethodType: PaymentMethodType;
+  isPaid: boolean;
+  isDelivered: boolean;
+  _id: string;
+  user: User;
+  cartItems: CartItem[];
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  __v: number;
+  paidAt?: Date;
+}
+
+export interface CartItem {
+  count: number;
+  product: Product;
+  price: number;
+  _id: string;
+}
+
+export enum PaymentMethodType {
+  Card = "card",
+  Cash = "cash",
+}
+
+export interface ShippingAddress {
+  details: string;
+  phone?: string;
+  city: string;
+  postalCode?: string;
+}
+
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+}

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useNavigate } from "react-router-dom";
 import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
 import handleError from "../../utils/handleError";
@@ -9,6 +10,9 @@ import updateData from "../../utils/updateData";
 
 export default function Cart() {
   const [token] = useLocalStorage("token");
+  const [, setUserId] = useLocalStorage("userId");
+
+  const navigate = useNavigate();
 
   const {
     isLoading,
@@ -78,6 +82,12 @@ export default function Cart() {
     }
   }
 
+  function onCheckout(cartId: string) {
+    setUserId(cartData?.data?.cartOwner);
+
+    navigate(`/check-out/${cartId}`);
+  }
+
   if (isLoading || isFetching) {
     return <div>Loading cart...</div>;
   }
@@ -117,7 +127,10 @@ export default function Cart() {
           </div>
 
           <div className="mt-4 flex gap-4">
-            <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+            <button
+              onClick={() => onCheckout(cartData?.cartId)}
+              className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+            >
               Checkout
             </button>
 

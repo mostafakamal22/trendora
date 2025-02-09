@@ -9,6 +9,8 @@ import Brands from "../components/Brands/Brands";
 import NotFound from "../components/NotFound/NotFound";
 import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
+import Checkout from "../components/Checkout/Checkout";
+import Orders from "../components/Orders/Orders";
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +41,14 @@ export const router = createBrowserRouter([
         path: "/brands",
         Component: Brands,
       },
-
+      {
+        path: "/check-out/:id",
+        Component: Checkout,
+      },
+      {
+        path: "allorders",
+        Component: Orders,
+      },
       {
         path: "/login",
         Component: Login,
