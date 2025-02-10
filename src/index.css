@@ -48,6 +48,10 @@
   .btn {
     @apply flex justify-center items-center gap-2 rounded-lg text-white border-none shadow-primary-default shadow-md bg-custom-orange disabled:opacity-90;
   }
+
+  .card {
+    @apply bg-white border border-transparent shadow-lg rounded-xl overflow-hidden transition-all duration-200 ease-in-out hover:shadow-primary-default/30 hover:border-primary-deep;
+  }
 }
 
 .mySwiper {

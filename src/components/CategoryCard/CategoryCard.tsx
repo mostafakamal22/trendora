@@ -2,7 +2,7 @@ import { Category } from "../../types";
 
 export default function CategoryCard({ name, image }: Category) {
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+    <div className="card">
       <img
         src={image}
         alt={name}
@@ -10,7 +10,7 @@ export default function CategoryCard({ name, image }: Category) {
         loading="lazy"
       />
       <div className="p-4 text-center">
-        <h3 className="text-accent-blue text-lg">{name}</h3>
+        <h2 className="text-lg text-primary-default drop-shadow-lg">{name}</h2>
       </div>
     </div>
   );

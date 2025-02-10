@@ -5,6 +5,7 @@ import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
 import postData from "../../utils/postData";
 import handleError from "../../utils/handleError";
+import MainSpinner from "../shared/MainSpinner";
 
 export default function Products() {
   const [token] = useLocalStorage("token");
@@ -59,7 +60,7 @@ export default function Products() {
   }
 
   if (isLoading || isFetching) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <MainSpinner size={50} className="h-[50vh]" />;
   }
 
   if (isError) {
@@ -72,7 +73,8 @@ export default function Products() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-20">
+      <h1>Trendy Picks, Crafted for You.</h1>
       {productsData?.data?.length ? (
         productsData.data.map((product) => (
           <ProductCard

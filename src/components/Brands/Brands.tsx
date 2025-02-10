@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Brands as BrandsType } from "../../types";
 import fetchData from "../../utils/fetchData";
 import BrandCard from "../BrandCard/BrandCard";
+import MainSpinner from "../shared/MainSpinner";
 
 export default function Brands() {
   const {
@@ -19,7 +20,7 @@ export default function Brands() {
   });
 
   if (isLoading || isFetching) {
-    return <div className="text-center text-gray-600">Loading...</div>;
+    return <MainSpinner size={50} className="h-[50vh]" />;
   }
 
   if (isError) {
@@ -30,7 +31,8 @@ export default function Brands() {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-20">
+      <h1>Our Trusted Brands.</h1>
       {brandsData?.data?.map((brand) => (
         <BrandCard key={brand._id} {...brand} />
       ))}

@@ -40,7 +40,7 @@ export default function MainLayout() {
   return (
     <>
       <Navbar />
-      <main className="container text-center mx-auto py-10">
+      <main className="min-h-screen container text-center mx-auto py-10">
         <Outlet />
       </main>
 
