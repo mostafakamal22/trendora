@@ -1,12 +1,23 @@
 import MoonLoader from "react-spinners/MoonLoader";
+import { twMerge } from "tailwind-merge";
 
-export default function MainSpinner() {
+type Props = {
+  size?: number;
+  className?: string;
+};
+
+export default function MainSpinner({ size = 90, className }: Props) {
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div
+      className={twMerge(
+        "h-screen w-full flex justify-center items-center",
+        className
+      )}
+    >
       <MoonLoader
         loading
         color="#ff7d1a"
-        size={90}
+        size={size}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

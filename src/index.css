@@ -5,7 +5,7 @@
 
 @layer base {
   body {
-    @apply font-kumbh bg-primary-peach/20;
+    @apply font-kumbh;
   }
 
   h1,
