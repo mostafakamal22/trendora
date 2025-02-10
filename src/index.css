@@ -125,3 +125,9 @@ p {
   margin: 0.2rem 0;
   color: #68707d;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
