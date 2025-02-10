@@ -1,6 +1,7 @@
-import { ProductProduct } from "../../types";
+import { Trash } from "lucide-react";
+import { ProductMinimalDetails } from "../../types";
 
-interface CartProductCardProps extends ProductProduct {
+interface CartProductCardProps extends ProductMinimalDetails {
   price: number;
   count: number;
   productId: string;
@@ -18,16 +19,17 @@ export default function CartProductCard({
   updateProductCount,
 }: CartProductCardProps) {
   return (
-    <div className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg shadow-sm">
+    <div className="flex flex-col sm:flex-row items-center gap-4 p-4 bg-slate-100 rounded-lg shadow-sm">
       <img
         src={imageCover}
         alt={title}
         className="w-16 h-16 object-cover rounded-md"
+        loading="lazy"
       />
 
-      <div className="flex-1">
-        <h3 className="text-lg font-medium">{title}</h3>
-        <p className="text-gray-700">${price.toFixed(2)}</p>
+      <div className="flex-1 text-center sm:text-left">
+        <h3 className="text-lg tracking-normal">{title}</h3>
+        <p className="font-semibold">${price}</p>
       </div>
 
       <div className="flex items-center gap-2">
@@ -49,8 +51,9 @@ export default function CartProductCard({
 
       <button
         onClick={() => onRemoveFromCart(productId)}
-        className="text-red-500 hover:text-red-700 transition"
+        className="btn px-4 py-2 !bg-red-500 !hover:bg-red-600 !shadow-red-500"
       >
+        <Trash />
         Remove
       </button>
     </div>
