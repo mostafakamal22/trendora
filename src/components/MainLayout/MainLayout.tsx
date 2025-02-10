@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import useProtectedRoutes from "../../hooks/useProtectedRoutes";
 import useModal from "@/hooks/useModal";
 import Modal from "../ui/Modal";
+import MainSpinner from "../shared/MainSpinner";
 
 export default function MainLayout() {
   const { isOpen, children, closeModal, title, desc } = useModal();
@@ -33,17 +34,13 @@ export default function MainLayout() {
   }, [token, pathname, navigate, publicRoutes, loading]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen text-xl font-bold">
-        Loading...
-      </div>
-    );
+    return <MainSpinner />;
   }
 
   return (
     <>
       <Navbar />
-      <main className="container text-center mx-auto">
+      <main className="container text-center mx-auto py-10">
         <Outlet />
       </main>
 
