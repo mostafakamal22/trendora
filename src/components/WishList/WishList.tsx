@@ -6,6 +6,7 @@ import WishlistProductCard from "../WishlistProductCard/WishlistProductCard";
 import postData from "../../utils/postData";
 import deleteData from "../../utils/deleteData";
 import handleError from "../../utils/handleError";
+import MainSpinner from "../shared/MainSpinner";
 
 export default function Wishlist() {
   const [token] = useLocalStorage("token");
@@ -72,7 +73,7 @@ export default function Wishlist() {
   }
 
   if (isLoading || isFetching) {
-    return <div>Loading wishlist...</div>;
+    return <MainSpinner size={50} className="h-[50vh]" />;
   }
 
   if (isError) {
@@ -81,10 +82,8 @@ export default function Wishlist() {
   }
 
   return (
-    <div className="p-4 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Wishlist ({wishlistData?.count ?? 0})
-      </h2>
+    <div className="p-4">
+      <h2>Your Favorite Picks ({wishlistData?.count ?? 0})</h2>
 
       {wishlistData?.count ? (
         <div className="grid gap-4 mt-4">

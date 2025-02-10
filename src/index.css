@@ -4,8 +4,12 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    @apply overflow-x-hidden;
+  }
+
   body {
-    @apply font-kumbh;
+    @apply font-kumbh overflow-x-hidden;
   }
 
   h1,
@@ -46,7 +50,7 @@
 
 @layer utilities {
   .btn {
-    @apply flex justify-center items-center gap-2 rounded-lg text-white border-none shadow-primary-default shadow-md bg-custom-orange disabled:opacity-90;
+    @apply flex justify-center items-center gap-2 rounded-lg text-white border-none shadow-primary-default shadow-md bg-custom-orange transition-all duration-200 ease-in-out hover:opacity-90 disabled:opacity-60;
   }
 
   .card {
