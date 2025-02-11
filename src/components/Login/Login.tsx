@@ -1,9 +1,11 @@
 import { FormikValues, useFormik } from "formik";
 import { loginSchema } from "../../schema/login";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useNavigate } from "react-router-dom";
-import postData from "../../utils/postData";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginResponse } from "../../types";
+import { twMerge } from "tailwind-merge";
+import postData from "../../utils/postData";
+import ErrorMsg from "../shared/ErrorMsg";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -58,57 +60,74 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>Login Now</h1>
+    <section className="max-w-2xl w-full mx-auto">
+      <h1 className="font-extrabold uppercase">Sign In & Keep Shopping</h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 p-6 bg-white shadow-md rounded-md"
-      >
+      <form onSubmit={handleSubmit} className="space-y-8 mt-10">
         <div className="mb-3">
-          <label htmlFor="email"> Email:</label>
           <input
             type="email"
             id="email"
             placeholder="Email"
-            className="border p-2 w-full"
+            aria-label="email"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.email && touched.email
+                ? "border-red-500"
+                : "border-gray-300"
+            )}
             {...getFieldProps("email")}
           />
-          {errors.email && touched.email && (
-            <p className="text-red-500">{errors.email}</p>
-          )}
+          {errors.email && touched.email && <ErrorMsg message={errors.email} />}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="password"> Password:</label>
           <input
             type="password"
             id="password"
             placeholder="Password"
-            className="border p-2 w-full"
+            aria-label="password"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.password && touched.password
+                ? "border-red-500"
+                : "border-gray-300"
+            )}
             {...getFieldProps("password")}
           />
           {errors.password && touched.password && (
-            <p className="text-red-500">{errors.password}</p>
+            <ErrorMsg message={errors.password} />
           )}
         </div>
 
         <button
           type="submit"
-          className="bg-orange-500 text-white p-2 w-full rounded-md disabled:opacity-50"
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Loading..." : "Login"}
+          {isSubmitting ? "Loading..." : "Sign In"}
         </button>
 
-        <button
-          type="button"
-          className="text-blue-500 mt-3 block w-full text-center"
-          onClick={handleForgotPassword}
-        >
-          Forgot Password?
-        </button>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-2 mt-5 text-sm text-left">
+          <p className="font-light w-fit">
+            Don't have an account yet?{" "}
+            <Link
+              className="font-bold text-primary-default hover:underline"
+              to="/register"
+            >
+              Sign up
+            </Link>
+          </p>
+
+          <button
+            type="button"
+            className="text-blue-500 block text-center font-bold"
+            onClick={handleForgotPassword}
+          >
+            Forgot Password?
+          </button>
+        </div>
       </form>
-    </div>
+    </section>
   );
 }
