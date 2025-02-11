@@ -5,6 +5,8 @@ import { LoginResponse } from "../../types";
 import { twMerge } from "tailwind-merge";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
+import toast from "@/lib/sonner";
+import handleError from "@/utils/handleError";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -34,10 +36,11 @@ export default function Register() {
       if (res && res?.token) {
         navigate("/login");
       } else {
-        console.error("No response received");
+        toast.error("No response received");
       }
     } catch (error) {
       console.log(error);
+      handleError(error);
     }
   }
 
