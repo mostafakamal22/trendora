@@ -24,17 +24,24 @@ export default function Navbar() {
       className="border-b-primary-peach"
       border
       theme={{
+        collapse: {
+          base: "w-full lg:block lg:w-auto",
+          list: "mt-4 flex flex-col lg:mt-0 lg:flex-row lg:space-x-8 lg:text-sm lg:font-medium",
+        },
         link: {
-          base: "block py-2 pl-3 pr-4 md:p-0 transition-all duration-200 ease-in-out md:text-base",
+          base: "block py-2 pl-3 pr-4 lg:p-0 transition-all duration-200 ease-in-out lg:text-base",
           active: {
-            on: "bg-primary-default text-white dark:text-white md:bg-transparent md:text-primary-default",
-            off: "border-b border-gray-100 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-primary-default md:dark:hover:bg-transparent md:dark:hover:text-white",
+            on: "bg-primary-default text-white dark:text-white lg:bg-transparent lg:text-primary-default",
+            off: "border-b border-gray-100 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:border-0 lg:hover:bg-transparent lg:hover:text-primary-default lg:dark:hover:bg-transparent lg:dark:hover:text-white",
           },
+        },
+        toggle: {
+          base: "inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden",
         },
       }}
     >
       <Link to="/">
-        <FlowbiteNavbar.Brand className="gap-1 select-none">
+        <FlowbiteNavbar.Brand as={"div"} className="gap-1 select-none">
           <img src={logo} className="h-6 sm:h-9" alt="Logo" />
           <h2 className="uppercase bg-gradient-to-tr from-primary-default to-primary-sunset bg-clip-text text-transparent drop-shadow">
             Trendora
@@ -44,7 +51,7 @@ export default function Navbar() {
 
       {token ? (
         <>
-          <div className="flex md:order-2 md:items-center">
+          <div className="flex lg:order-2 lg:items-center">
             <Link
               to="/cart"
               className="mr-5 relative"
@@ -52,7 +59,7 @@ export default function Navbar() {
             >
               <ShoppingCart className="text-gray-400" size={30} />
 
-              <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 md:-bottom-1 md:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
+              <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
                 5
               </span>
             </Link>
@@ -88,37 +95,40 @@ export default function Navbar() {
 
           <FlowbiteNavbar.Collapse>
             <Link to="/" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/"}>
                 Home
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/cart" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/cart"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/cart"}>
                 Cart
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/wishlist" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/wishlist"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/wishlist"}>
                 Wishlist
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/products" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/products"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/products"}>
                 Products
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/categories" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/categories"}>
+              <FlowbiteNavbar.Link
+                as={"div"}
+                active={pathname === "/categories"}
+              >
                 Categories
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/brands" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/brands"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/brands"}>
                 Brands
               </FlowbiteNavbar.Link>
             </Link>
@@ -130,13 +140,13 @@ export default function Navbar() {
 
           <FlowbiteNavbar.Collapse>
             <Link to="/login" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/login"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/login"}>
                 Login
               </FlowbiteNavbar.Link>
             </Link>
 
             <Link to="/register" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link active={pathname === "/register"}>
+              <FlowbiteNavbar.Link as={"div"} active={pathname === "/register"}>
                 Register
               </FlowbiteNavbar.Link>
             </Link>
