@@ -7,6 +7,7 @@ import { FaStar } from "react-icons/fa";
 interface ProductCardProps extends Product {
   onAddToWishlist: (id: string) => void;
   onAddToCart: (id: string) => void;
+  isDoingProductAction: boolean;
 }
 
 export default function ProductCard({
@@ -20,6 +21,7 @@ export default function ProductCard({
   priceAfterDiscount,
   onAddToCart,
   onAddToWishlist,
+  isDoingProductAction,
 }: ProductCardProps) {
   return (
     <Link to={`/productDetails/${id}`} className="card relative group">
@@ -31,8 +33,9 @@ export default function ProductCard({
               event.stopPropagation();
               onAddToWishlist(id);
             }}
-            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105"
+            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
             title="Add to Wishlist"
+            disabled={isDoingProductAction}
           >
             <FaRegHeart size={20} />
           </button>
@@ -42,8 +45,9 @@ export default function ProductCard({
               event.stopPropagation();
               onAddToCart(id);
             }}
-            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105"
+            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
             title="Add to Cart"
+            disabled={isDoingProductAction}
           >
             <MdAddShoppingCart size={20} />
           </button>

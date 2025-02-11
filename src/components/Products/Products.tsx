@@ -1,13 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { Products as ProductsType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
 import postData from "../../utils/postData";
 import handleError from "../../utils/handleError";
 import MainSpinner from "../shared/MainSpinner";
+import FetchDataError from "../shared/FetchDataError";
+import NoDataAvailable from "../shared/NoDataAvailable";
+import toast from "@/lib/sonner";
 
 export default function Products() {
+  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+
   const [token] = useLocalStorage("token");
 
   const {
@@ -27,6 +33,8 @@ export default function Products() {
   async function onAddToWishlist(id: string) {
     console.log("added to whislist", id);
 
+    setIsDoingProductAction(true);
+
     try {
       const res = await postData({
         url: "/wishlist",
@@ -37,13 +45,20 @@ export default function Products() {
       });
 
       console.log(res);
+
+      toast.success("Product added to wishlist");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
   async function onAddToCart(id: string) {
     console.log("added to cart", id);
+
+    setIsDoingProductAction(true);
+
     try {
       const res = await postData({
         url: "/cart",
@@ -54,8 +69,12 @@ export default function Products() {
       });
 
       console.log(res);
+
+      toast.success("Product added to cart");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
@@ -65,11 +84,7 @@ export default function Products() {
 
   if (isError) {
     console.error("Fetching products failed:", error);
-    return (
-      <div className="text-red-500 text-center">
-        Error loading products. Please try again later.
-      </div>
-    );
+    return <FetchDataError name="products" />;
   }
 
   return (
@@ -80,13 +95,14 @@ export default function Products() {
         productsData.data.map((product) => (
           <ProductCard
             key={product._id}
-            {...product}
             onAddToCart={onAddToCart}
             onAddToWishlist={onAddToWishlist}
+            isDoingProductAction={isDoingProductAction}
+            {...product}
           />
         ))
       ) : (
-        <p className="text-gray-500 text-center">No products available.</p>
+        <NoDataAvailable name="products" />
       )}
     </section>
   );
