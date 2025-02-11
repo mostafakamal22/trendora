@@ -73,7 +73,7 @@ export default function Login() {
             className={twMerge(
               "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
               errors.email && touched.email
-                ? "border-red-500"
+                ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
             )}
             {...getFieldProps("email")}
@@ -90,7 +90,7 @@ export default function Login() {
             className={twMerge(
               "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
               errors.password && touched.password
-                ? "border-red-500"
+                ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
             )}
             {...getFieldProps("password")}

@@ -1,8 +1,10 @@
 import { FormikValues, useFormik } from "formik";
 import { registerSchema } from "../../schema/register";
 import { useNavigate } from "react-router-dom";
-import postData from "../../utils/postData";
 import { LoginResponse } from "../../types";
+import { twMerge } from "tailwind-merge";
+import postData from "../../utils/postData";
+import ErrorMsg from "../shared/ErrorMsg";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -40,92 +42,107 @@ export default function Register() {
   }
 
   return (
-    <div>
-      <h1>Regsiter Now</h1>
+    <section className="max-w-2xl w-full mx-auto">
+      <h1 className="font-extrabold uppercase">Unlock Exclusive Trends</h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 p-6 bg-white shadow-md rounded-md"
-      >
+      <form onSubmit={handleSubmit} className="space-y-8 mt-10">
         <div className="mb-3">
-          <label htmlFor="name"> Name:</label>
-
           <input
             type="text"
             id="name"
             placeholder="Name"
-            className="border p-2 w-full"
+            aria-label="name"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.name && touched.name
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("name")}
           />
-          {errors.name && touched.name && (
-            <p className="text-red-500">{errors.name}</p>
-          )}
+          {errors.name && touched.name && <ErrorMsg message={errors.name} />}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="email"> Email:</label>
-
           <input
             type="email"
             id="email"
             placeholder="Email"
-            className="border p-2 w-full"
+            aria-label="email"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.email && touched.email
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("email")}
           />
-          {errors.email && touched.email && (
-            <p className="text-red-500">{errors.email}</p>
-          )}
+          {errors.email && touched.email && <ErrorMsg message={errors.email} />}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="password"> Password:</label>
-
           <input
             type="password"
             id="password"
             placeholder="Password"
-            className="border p-2 w-full"
+            aria-label="password"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.password && touched.password
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("password")}
           />
           {errors.password && touched.password && (
-            <p className="text-red-500">{errors.password}</p>
+            <ErrorMsg message={errors.password} />
           )}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="repassword"> Confrim Password:</label>
-
           <input
             type="password"
             id="repassword"
             placeholder="Confirm Password"
-            className="border p-2 w-full"
+            aria-label="Confrim Password"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.rePassword && touched.rePassword
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("rePassword")}
           />
           {errors.rePassword && touched.rePassword && (
-            <p className="text-red-500">{errors.rePassword}</p>
+            <ErrorMsg message={errors.rePassword} />
           )}
         </div>
 
-        <input
-          type="text"
-          id="phone"
-          placeholder="Phone Number"
-          className="border p-2 w-full"
-          {...getFieldProps("phone")}
-        />
-        {errors.phone && touched.phone && (
-          <p className="text-red-500">{errors.phone}</p>
-        )}
+        <div className="mb-3">
+          <input
+            type="text"
+            id="phone"
+            placeholder="Phone Number"
+            aria-label="phone number"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.phone && touched.phone
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
+            {...getFieldProps("phone")}
+          />
+          {errors.phone && touched.phone && <ErrorMsg message={errors.phone} />}
+        </div>
 
         <button
           type="submit"
-          className="bg-orange-500 text-white p-2 w-full rounded-md disabled:opacity-50"
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Loading..." : "Register"}
         </button>
       </form>
-    </div>
+    </section>
   );
 }
