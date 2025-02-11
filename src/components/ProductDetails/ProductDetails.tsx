@@ -2,13 +2,20 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../types";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
 import handleError from "../../utils/handleError";
 import ProductCarousel from "./ProductCarousel";
 import ProductInfoSection from "./ProductInfoSection";
+import FetchDataError from "../shared/FetchDataError";
+import MainSpinner from "../shared/MainSpinner";
+import toast from "@/lib/sonner";
+import NoDataAvailable from "../shared/NoDataAvailable";
 
 export default function ProductDetails() {
+  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+
   const [token] = useLocalStorage("token");
 
   const { id } = useParams();
@@ -29,6 +36,9 @@ export default function ProductDetails() {
 
   async function onAddToCart(id: string) {
     console.log("added to cart", id);
+
+    setIsDoingProductAction(true);
+
     try {
       const res = await postData({
         url: "/cart",
@@ -39,26 +49,26 @@ export default function ProductDetails() {
       });
 
       console.log(res);
+
+      toast.success("Product added to cart");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
   if (isLoading || isFetching) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <MainSpinner size={50} className="h-[50vh]" />;
   }
 
   if (isError) {
-    console.error("Fetching products failed:", error);
-    return (
-      <div className="text-red-500 text-center">
-        Error loading products. Please try again later.
-      </div>
-    );
+    console.error("Fetching product failed:", error);
+    return <FetchDataError name="product" />;
   }
 
   if (!productData) {
-    return <div>Product not found</div>;
+    return <NoDataAvailable name="product" />;
   }
 
   const { data: product } = productData;
@@ -67,7 +77,11 @@ export default function ProductDetails() {
     <div className="py-4 flex flex-col items-center lg:items-start lg:flex-row gap-8">
       <ProductCarousel {...product} />
 
-      <ProductInfoSection onAddToCart={onAddToCart} product={product} />
+      <ProductInfoSection
+        onAddToCart={onAddToCart}
+        product={product}
+        isDoingProductAction={isDoingProductAction}
+      />
     </div>
   );
 }
