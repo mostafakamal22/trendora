@@ -26,7 +26,6 @@ export default function Brands() {
 
   if (isError) {
     console.error(error);
-
     return <FetchDataError name="brands" />;
   }
 

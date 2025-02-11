@@ -5,6 +5,7 @@ interface CartProductCardProps extends ProductMinimalDetails {
   price: number;
   count: number;
   productId: string;
+  isDoingProductAction: boolean;
   onRemoveFromCart: (productId: string) => void;
   updateProductCount: (productId: string, newCount: number) => void;
 }
@@ -15,6 +16,7 @@ export default function CartProductCard({
   price,
   count,
   productId,
+  isDoingProductAction,
   onRemoveFromCart,
   updateProductCount,
 }: CartProductCardProps) {
@@ -28,22 +30,23 @@ export default function CartProductCard({
       />
 
       <div className="flex-1 text-center sm:text-left">
-        <h3 className="text-lg tracking-normal">{title}</h3>
+        <h4 className="text-lg font-bold text-gray-900">{title}</h4>
         <p className="font-semibold">${price}</p>
       </div>
 
       <div className="flex items-center gap-2">
         <button
           onClick={() => updateProductCount(productId, count - 1)}
-          className="px-2 py-1 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition"
-          disabled={count <= 1}
+          className="px-2 py-1 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition disabled:cursor-not-allowed"
+          disabled={count <= 1 || isDoingProductAction}
         >
           -
         </button>
-        <span className="text-gray-700">{count}</span>
+        <span className="text-gray-700 font-semibold">{count}</span>
         <button
           onClick={() => updateProductCount(productId, count + 1)}
-          className="px-2 py-1 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition"
+          className="px-2 py-1 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition disabled:cursor-not-allowed"
+          disabled={isDoingProductAction}
         >
           +
         </button>
@@ -52,6 +55,7 @@ export default function CartProductCard({
       <button
         onClick={() => onRemoveFromCart(productId)}
         className="btn px-4 py-2 !bg-red-500 !hover:bg-red-600 !shadow-red-500"
+        disabled={isDoingProductAction}
       >
         <Trash />
         Remove

@@ -3,15 +3,22 @@ import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
 import { CreditCard, Trash } from "lucide-react";
+import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
 import handleError from "../../utils/handleError";
 import deleteData from "../../utils/deleteData";
 import updateData from "../../utils/updateData";
 import MainSpinner from "../shared/MainSpinner";
+import FetchDataError from "../shared/FetchDataError";
+import toast from "@/lib/sonner";
+import NoDataAvailable from "../shared/NoDataAvailable";
 
 export default function Cart() {
+  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+
   const [token] = useLocalStorage("token");
+
   const [, setUserId] = useLocalStorage("userId");
 
   const navigate = useNavigate();
@@ -38,6 +45,8 @@ export default function Cart() {
   async function onRemoveFromCart(productId: string) {
     console.log("removed from cart", productId);
 
+    setIsDoingProductAction(true);
+
     try {
       const res = await deleteData({
         url: `/cart/${productId}`,
@@ -46,14 +55,18 @@ export default function Cart() {
 
       console.log(res);
       refetch();
+
+      toast.success("Product removed from cart.");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
   async function updateProductCount(productId: string, newCount: number) {
     if (newCount <= 0) return;
-
+    setIsDoingProductAction(true);
     try {
       const res = await updateData({
         url: `/cart/${productId}`,
@@ -63,14 +76,17 @@ export default function Cart() {
 
       console.log(res);
       refetch();
+      toast.success("Product quantity updated.");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
   async function onClearCart() {
     console.log("Clearing cart");
-
+    setIsDoingProductAction(true);
     try {
       const res = await deleteData({
         url: "/cart",
@@ -79,8 +95,11 @@ export default function Cart() {
 
       console.log(res);
       refetch();
+      toast.success("Your cart is empty.");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
@@ -96,20 +115,20 @@ export default function Cart() {
 
   if (isError) {
     console.error(error);
-    return <div>Error loading cart.</div>;
+    return <FetchDataError name="cart items" />;
   }
 
   return (
-    <div className="p-4">
+    <section className="mt-5 md:mt-10">
       <h1>Almost Yours!</h1>
 
       {cartData?.numOfCartItems ? (
         <>
-          <div className="flex justify-between items-center gap-2  mt-4">
-            <p className="text-gray-700">
+          <div className="max-w-md w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-2 mt-4">
+            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
               Total items: {cartData.numOfCartItems}
             </p>
-            <p className="text-gray-700">
+            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
               Total price: ${cartData.data?.totalCartPrice}
             </p>
           </div>
@@ -118,27 +137,30 @@ export default function Cart() {
             {cartData.data.products.map((productElement) => (
               <CartProductCard
                 key={productElement._id}
-                {...productElement.product}
                 price={productElement.price}
                 count={productElement.count}
                 productId={productElement?.product?._id}
                 onRemoveFromCart={onRemoveFromCart}
                 updateProductCount={updateProductCount}
+                isDoingProductAction={isDoingProductAction}
+                {...productElement.product}
               />
             ))}
           </div>
 
-          <div className="max-w-lg w-full mx-auto mt-6 flex items-center gap-4">
+          <div className="max-w-lg w-full mx-auto mt-6 flex flex-col xs:flex-row items-stretch xs:items-center gap-4">
             <button
               onClick={() => onCheckout(cartData?.cartId)}
-              className="btn flex-1 px-4 py-2 !bg-green-500 !shadow-green-600"
+              className="btn flex-1 px-4 py-2 !bg-blue-600 !shadow-blue-600"
+              disabled={isDoingProductAction}
             >
               <CreditCard />
               Checkout
             </button>
             <button
               onClick={onClearCart}
-              className="btn flex-1 px-4 py-2 !bg-primary-sunset !shadow-yellow-600"
+              className="btn flex-1 px-4 py-2 !bg-yellow-600 !shadow-yellow-600"
+              disabled={isDoingProductAction}
             >
               <Trash />
               Clear Cart
@@ -146,8 +168,8 @@ export default function Cart() {
           </div>
         </>
       ) : (
-        <p className="text-gray-500 mt-2">No items in your cart.</p>
+        <NoDataAvailable name="items" />
       )}
-    </div>
+    </section>
   );
 }
