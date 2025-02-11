@@ -2,7 +2,9 @@ import { FormikValues, useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { forgotPasswordSchema } from "../../schema/forgotPassword";
+import { twMerge } from "tailwind-merge";
 import postData from "../../utils/postData";
+import ErrorMsg from "../shared/ErrorMsg";
 
 export default function ForgotPassword() {
   const location = useLocation();
@@ -43,34 +45,37 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Verify Reset Code</h2>
-      <p className="mb-4 text-gray-600">
+    <div className="max-w-lg mx-auto mt-10 p-3">
+      <h2 className="mb-4">Verify Reset Code</h2>
+      <p className="mb-4">
         We sent a reset code to <strong>{email}</strong>. Please enter it below.
       </p>
 
-      {message && <p className="text-red-500">{message}</p>}
+      {message && <ErrorMsg message={message} />}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <label htmlFor="resetCode" className="block font-medium">
-            Reset Code:
-          </label>
           <input
             type="text"
             id="resetCode"
             placeholder="Enter Reset Code"
-            className="border p-2 w-full"
+            aria-label="Reset Code"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.resetCode && touched.resetCode
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("resetCode")}
           />
           {errors.resetCode && touched.resetCode && (
-            <p className="text-red-500">{errors.resetCode}</p>
+            <ErrorMsg message={errors.resetCode} />
           )}
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 w-full rounded-md disabled:opacity-50"
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50 !bg-blue-600 !shadow-blue-600"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Verifying..." : "Verify Code"}
