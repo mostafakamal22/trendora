@@ -2,7 +2,9 @@ import { FormikValues, useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { resetPasswordSchema } from "../../schema/resetPassword";
+import { twMerge } from "tailwind-merge";
 import updateData from "../../utils/updateData";
+import ErrorMsg from "../shared/ErrorMsg";
 
 export default function ResetPassword() {
   const location = useLocation();
@@ -43,34 +45,37 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
-      <p className="mb-4 text-gray-600">
+    <div className="max-w-lg mx-auto mt-10 p-3">
+      <h2 className="mb-4">Reset Password</h2>
+      <p className="mb-4">
         Enter your new password for <strong>{email}</strong>.
       </p>
 
-      {message && <p className="text-red-500">{message}</p>}
+      {message && <ErrorMsg message={message} />}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <label htmlFor="newPassword" className="block font-medium">
-            New Password:
-          </label>
           <input
             type="password"
             id="newPassword"
             placeholder="Enter New Password"
-            className="border p-2 w-full"
+            aria-label="New Password"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.newPassword && touched.newPassword
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("newPassword")}
           />
           {errors.newPassword && touched.newPassword && (
-            <p className="text-red-500">{errors.newPassword}</p>
+            <ErrorMsg message={errors.newPassword} />
           )}
         </div>
 
         <button
           type="submit"
-          className="bg-green-500 text-white p-2 w-full rounded-md disabled:opacity-50"
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50 !bg-green-600 !shadow-green-600"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Resetting..." : "Reset Password"}
