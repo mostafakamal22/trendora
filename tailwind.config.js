@@ -6,6 +6,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
   theme: {
     extend: {
+      screens: {
+        xs: "480px",
+      },
       fontFamily: {
         kumbh: ["Kumbh Sans", "sans-serif"],
         playfair: ["Playfair Display", "serif"],

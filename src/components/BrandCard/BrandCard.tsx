@@ -14,7 +14,7 @@ export default function BrandCard({ name, image }: Brand) {
           <p>{name}</p>
         </div>
         <div className="basis-1/2">
-          <img alt={name} src={image} />
+          <img alt={name} src={image} loading="lazy" />
         </div>
       </div>
     );

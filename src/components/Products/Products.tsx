@@ -88,7 +88,7 @@ export default function Products() {
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5 md:mt-10">
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
       <h1>Trendy Looks, Timeless Style. </h1>
 
       {productsData?.data?.length ? (

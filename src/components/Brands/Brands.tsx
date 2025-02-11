@@ -3,6 +3,7 @@ import { Brands as BrandsType } from "../../types";
 import fetchData from "../../utils/fetchData";
 import BrandCard from "../BrandCard/BrandCard";
 import MainSpinner from "../shared/MainSpinner";
+import FetchDataError from "../shared/FetchDataError";
 
 export default function Brands() {
   const {
@@ -25,17 +26,16 @@ export default function Brands() {
 
   if (isError) {
     console.error(error);
-    return (
-      <div className="text-center text-red-500">Error fetching brands</div>
-    );
+
+    return <FetchDataError name="brands" />;
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-20">
+    <section className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
       <h1>Our Trusted Brands.</h1>
       {brandsData?.data?.map((brand) => (
         <BrandCard key={brand._id} {...brand} />
       ))}
-    </div>
+    </section>
   );
 }
