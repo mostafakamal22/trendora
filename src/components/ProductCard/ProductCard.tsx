@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Product } from "../../types";
-import { HeartIcon, ShoppingCart, Star } from "lucide-react";
-import { twMerge } from "tailwind-merge";
+import { FaRegHeart } from "react-icons/fa6";
+import { MdAddShoppingCart } from "react-icons/md";
+import { FaStar } from "react-icons/fa";
 
 interface ProductCardProps extends Product {
   onAddToWishlist: (id: string) => void;
@@ -14,64 +15,79 @@ export default function ProductCard({
   imageCover,
   ratingsAverage,
   category,
+  description,
   price,
   priceAfterDiscount,
   onAddToCart,
   onAddToWishlist,
 }: ProductCardProps) {
   return (
-    <div className="card p-4">
-      <Link to={`/productDetails/${id}`}>
-        <img
-          src={imageCover}
-          alt={title}
-          className="w-full h-60 object-contain rounded-lg"
-          loading="lazy"
-        />
-        <div className="mt-4">
-          <h2 className="text-lg text-primary-default drop-shadow-lg">
-            {title}
-          </h2>
-          <p>{category.name}</p>
-
-          <div className="flex items-center justify-between mt-2">
-            <p className="text-primary-default font-semibold flex items-center gap-1">
-              <Star className="fill-primary-default" size={18} />
-              {ratingsAverage}
-            </p>
-            {priceAfterDiscount ? (
-              <div className="flex justify-end gap-2">
-                <p className="text-gray-500 line-through">${price}</p>
-                <p className="text-green-600 font-bold">
-                  ${priceAfterDiscount}
-                </p>
-              </div>
-            ) : (
-              <p className="text-gray-800 font-bold text-right">${price}</p>
-            )}
-          </div>
+    <Link to={`/productDetails/${id}`} className="card relative group">
+      <div className="absolute top-0 w-full h-80 bg-transparent group-hover:bg-black/15 transition-all duration-200 ease-in-out">
+        <div className="absolute right-2 top-2 flex flex-col gap-2 lg:opacity-0 lg:translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-in-out delay-100">
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onAddToWishlist(id);
+            }}
+            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105"
+            title="Add to Wishlist"
+          >
+            <FaRegHeart size={20} />
+          </button>
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onAddToCart(id);
+            }}
+            className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105"
+            title="Add to Cart"
+          >
+            <MdAddShoppingCart size={20} />
+          </button>
         </div>
-      </Link>
 
-      <div className="mt-6 flex gap-4">
-        <button
-          onClick={() => onAddToWishlist(id)}
-          className="text-red-500 hover:text-red-600 transition-all ease-in-out duration-200"
-          title="Add to Wishlist"
-        >
-          <HeartIcon
-            className={twMerge("fill-red-500 hover:fill-red-600")}
-            size={30}
-          />
-        </button>
-        <button
-          onClick={() => onAddToCart(id)}
-          className="btn flex-1 px-3 py-2"
-        >
-          <ShoppingCart size={20} />
-          Add to Cart
-        </button>
+        <span className="absolute bottom-2 left-2 px-2 py-1 text-xs font-bold bg-custom-fadeOrange text-custom-orange flex items-center gap-1 rounded-md shadow">
+          <FaStar className="fill-primary-default" size={16} />
+          {ratingsAverage}
+        </span>
+
+        <span className="absolute bottom-2 right-2 px-2 py-1 text-xs font-bold bg-green-600 text-primary-peach flex items-center gap-1 rounded-md shadow">
+          {category?.name}
+        </span>
       </div>
-    </div>
+
+      <img
+        src={imageCover}
+        alt={title}
+        className="w-full h-80 object-cover"
+        loading="lazy"
+      />
+
+      <div className="p-4 text-left">
+        <h4 className="font-bold truncate">{title}</h4>
+        <p className="text-sm truncate">{description}</p>
+
+        <div className="flex items-center mt-2">
+          {priceAfterDiscount ? (
+            <div className="flex items-center gap-2">
+              <span className="text-green-600 font-medium text-lg">
+                ${priceAfterDiscount}
+              </span>
+
+              <span className="text-gray-400 line-through">${price}</span>
+
+              <span className="ml-2 text-xs bg-green-600 text-primary-peach p-1 rounded-md font-semibold">
+                {((1 - priceAfterDiscount / price) * 100).toFixed(0)}% OFF
+              </span>
+            </div>
+          ) : (
+            <span className="font-medium text-gray-900 text-lg">${price}</span>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
