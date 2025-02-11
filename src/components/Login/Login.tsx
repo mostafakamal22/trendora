@@ -4,12 +4,17 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginResponse } from "../../types";
 import { twMerge } from "tailwind-merge";
+import { useState } from "react";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
+import toast from "@/lib/sonner";
+import handleError from "@/utils/handleError";
 
 export default function Login() {
   const navigate = useNavigate();
   const [, setToken] = useLocalStorage("token");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { getFieldProps, handleSubmit, errors, touched, isSubmitting, values } =
     useFormik({
@@ -34,18 +39,23 @@ export default function Login() {
         setToken(res.token);
         navigate("/");
       } else {
-        console.error("No response received");
+        toast.error("No response received");
       }
     } catch (error) {
       console.log(error);
+      handleError(error);
     }
   }
 
   async function handleForgotPassword() {
     if (!values.email) {
-      alert("Please enter your email before requesting a password reset.");
+      toast.error(
+        "Please enter your email before requesting a password reset."
+      );
       return;
     }
+
+    setIsLoading(true);
 
     try {
       await postData({
@@ -56,6 +66,9 @@ export default function Login() {
       navigate("/forgot-password", { state: { email: values.email } });
     } catch (error) {
       console.error("Forgot password request failed:", error);
+      handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -121,10 +134,11 @@ export default function Login() {
 
           <button
             type="button"
-            className="text-blue-500 block text-center font-bold"
+            className="text-blue-500 block text-center font-bold disabled:cursor-not-allowed"
             onClick={handleForgotPassword}
+            disabled={isLoading}
           >
-            Forgot Password?
+            {isLoading ? "Please wait..." : "Forgot Password?"}
           </button>
         </div>
       </form>

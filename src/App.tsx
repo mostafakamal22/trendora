@@ -13,7 +13,7 @@ function App() {
       <ModalProvider>
         <RouterProvider router={router} />
 
-        <Toaster richColors theme="light" />
+        <Toaster theme="light" richColors closeButton />
       </ModalProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
