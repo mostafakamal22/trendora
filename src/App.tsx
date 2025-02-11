@@ -3,6 +3,7 @@ import { router } from "./providers/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ModalProvider } from "./providers/modal";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -11,6 +12,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
         <RouterProvider router={router} />
+
+        <Toaster richColors theme="light" />
       </ModalProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
