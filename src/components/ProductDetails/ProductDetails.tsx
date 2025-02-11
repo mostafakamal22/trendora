@@ -64,7 +64,7 @@ export default function ProductDetails() {
   const { data: product } = productData;
 
   return (
-    <div className="p-4 flex flex-col lg:flex-row gap-8">
+    <div className="py-4 flex flex-col items-center lg:items-start lg:flex-row gap-8">
       <ProductCarousel {...product} />
 
       <ProductInfoSection onAddToCart={onAddToCart} product={product} />

@@ -11,13 +11,13 @@ export default function ProductInfoSection({
   product: { _id, price, priceAfterDiscount, description, title, brand },
 }: props) {
   return (
-    <section className="max-w-[35rem] flex justify-stretch flex-col p-6 text-left lg:flex-basis-1/2">
+    <section className="max-w-[35rem] mx-auto self-stretch flex justify-stretch flex-col p-6 text-left lg:flex-basis-1/2 lg:mx-0">
       <h3>{brand?.name}</h3>
       <h2>{title}</h2>
       <p>{description}</p>
 
-      <div className="flex items-center gap-4 mt-5">
-        <span className="text-2xl font-bold">
+      <div className="flex items-center gap-3 mt-5">
+        <span className="text-2xl font-extrabold">
           ${priceAfterDiscount || price}
         </span>
 
@@ -27,14 +27,14 @@ export default function ProductInfoSection({
 
         {priceAfterDiscount && (
           <span className="bg-custom-fadeOrange text-custom-orange p-1 rounded-md font-semibold">
-            {((1 - priceAfterDiscount / price) * 100).toFixed(2)}%
+            {((1 - priceAfterDiscount / price) * 100).toFixed(0)}%
           </span>
         )}
       </div>
 
       <button
         onClick={() => onAddToCart(_id)}
-        className="btn px-4 py-3 mt-auto font-semibold"
+        className="btn px-4 py-3 mt-10 lg:mt-auto font-semibold"
       >
         <ShoppingCart size={20} />
         Add to Cart
