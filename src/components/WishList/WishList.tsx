@@ -1,14 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { WishList } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import WishlistProductCard from "../WishlistProductCard/WishlistProductCard";
 import postData from "../../utils/postData";
 import deleteData from "../../utils/deleteData";
 import handleError from "../../utils/handleError";
 import MainSpinner from "../shared/MainSpinner";
+import NoDataAvailable from "../shared/NoDataAvailable";
+import FetchDataError from "../shared/FetchDataError";
+import toast from "@/lib/sonner";
 
 export default function Wishlist() {
+  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+
   const [token] = useLocalStorage("token");
 
   const {
@@ -32,7 +38,7 @@ export default function Wishlist() {
 
   async function onRemove(id: string) {
     console.log("removed from wishlist", id);
-
+    setIsDoingProductAction(true);
     try {
       const res = await deleteData({
         url: `/wishlist/${id}`,
@@ -43,14 +49,17 @@ export default function Wishlist() {
       console.log(res);
 
       refetch();
+      toast.success("Product removed from wishlist.");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
   async function onAddToCart(id: string) {
     console.log("added to cart", id);
-
+    setIsDoingProductAction(true);
     try {
       const res = await postData({
         url: "/cart",
@@ -67,8 +76,11 @@ export default function Wishlist() {
       console.log(removedItem);
 
       refetch();
+      toast.success("Product added to cart.");
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsDoingProductAction(false);
     }
   }
 
@@ -78,11 +90,11 @@ export default function Wishlist() {
 
   if (isError) {
     console.error(error);
-    return <div>Error loading wishlist.</div>;
+    return <FetchDataError name="wishlist items" />;
   }
 
   return (
-    <div className="p-4">
+    <section className="mt-5 md:mt-10">
       <h2>Your Favorite Picks ({wishlistData?.count ?? 0})</h2>
 
       {wishlistData?.count ? (
@@ -90,15 +102,16 @@ export default function Wishlist() {
           {wishlistData.data.map((product) => (
             <WishlistProductCard
               key={product._id}
-              {...product}
               onAddToCart={onAddToCart}
               onRemove={onRemove}
+              isDoingProductAction={isDoingProductAction}
+              {...product}
             />
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 mt-2">No items in your wishlist.</p>
+        <NoDataAvailable name="items" />
       )}
-    </div>
+    </section>
   );
 }

@@ -2,6 +2,7 @@ import { ShoppingCart, Trash } from "lucide-react";
 import { Product } from "../../types";
 
 interface WishlistProductCardProps extends Product {
+  isDoingProductAction: boolean;
   onRemove: (id: string) => void;
   onAddToCart: (id: string) => void;
 }
@@ -11,6 +12,7 @@ export default function WishlistProductCard({
   title,
   imageCover,
   price,
+  isDoingProductAction,
   onRemove,
   onAddToCart,
 }: WishlistProductCardProps) {
@@ -24,20 +26,25 @@ export default function WishlistProductCard({
       />
 
       <div className="flex-1 text-center sm:text-left">
-        <h3 className="text-lg tracking-normal">{title}</h3>
+        <h4 className="text-lg font-bold text-gray-900">{title}</h4>
         <p className="font-semibold">${price}</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="w-full flex flex-col justify-stretch gap-2 sm:flex-row sm:w-fit">
         <button
           onClick={() => onRemove(_id)}
           className="btn px-4 py-2 !bg-red-500 !hover:bg-red-600 !shadow-red-500"
+          disabled={isDoingProductAction}
         >
           <Trash />
           Remove
         </button>
 
-        <button onClick={() => onAddToCart(_id)} className="btn px-4 py-2">
+        <button
+          onClick={() => onAddToCart(_id)}
+          className="btn px-4 py-2"
+          disabled={isDoingProductAction}
+        >
           <ShoppingCart size={20} />
           Add to Cart
         </button>
