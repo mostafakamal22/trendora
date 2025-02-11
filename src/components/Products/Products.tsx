@@ -73,8 +73,9 @@ export default function Products() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-20">
-      <h1>Trendy Picks, Crafted for You.</h1>
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5 md:mt-10">
+      <h1>Trendy Looks, Timeless Style. </h1>
+
       {productsData?.data?.length ? (
         productsData.data.map((product) => (
           <ProductCard
@@ -87,6 +88,6 @@ export default function Products() {
       ) : (
         <p className="text-gray-500 text-center">No products available.</p>
       )}
-    </div>
+    </section>
   );
 }

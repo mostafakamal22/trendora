@@ -33,8 +33,8 @@ export default function Categories() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-20">
-      <h1>Trendy Looks, Timeless Style. </h1>
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
+      <h1>Trendy Picks, Crafted for You.</h1>
       {categoriesData?.data?.length ? (
         categoriesData.data.map((category) => (
           <CategoryCard key={category._id} {...category} />
@@ -42,6 +42,6 @@ export default function Categories() {
       ) : (
         <p className="text-gray-500 text-center">No categories available.</p>
       )}
-    </div>
+    </section>
   );
 }
