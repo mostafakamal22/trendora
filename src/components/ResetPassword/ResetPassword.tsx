@@ -1,17 +1,17 @@
 import { FormikValues, useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { resetPasswordSchema } from "../../schema/resetPassword";
 import { twMerge } from "tailwind-merge";
 import updateData from "../../utils/updateData";
 import ErrorMsg from "../shared/ErrorMsg";
+import handleError from "@/utils/handleError";
+import toast from "@/lib/sonner";
 
 export default function ResetPassword() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const email = location.state?.email || "";
-  const [message, setMessage] = useState("");
 
   const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
     useFormik({
@@ -32,11 +32,11 @@ export default function ResetPassword() {
       if (res) {
         navigate("/login");
       } else {
-        setMessage("Password reset failed. Please try again.");
+        toast.error("Password reset failed. Please try again.");
       }
     } catch (error) {
       console.error("Password reset error:", error);
-      setMessage("An error occurred. Please try again.");
+      handleError(error);
     }
   }
 
@@ -50,8 +50,6 @@ export default function ResetPassword() {
       <p className="mb-4">
         Enter your new password for <strong>{email}</strong>.
       </p>
-
-      {message && <ErrorMsg message={message} />}
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div>
