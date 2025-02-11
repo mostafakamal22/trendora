@@ -1,9 +1,9 @@
 import { Avatar, Dropdown, Navbar as FlowbiteNavbar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { ShoppingCart } from "lucide-react";
 
 import logo from "@/assets/images/logo-1.png";
-import { ShoppingCart } from "lucide-react";
 
 export default function Navbar() {
   const [token, setToken] = useLocalStorage("token");
