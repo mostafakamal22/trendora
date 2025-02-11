@@ -3,6 +3,8 @@ import { Categories as CategoriesType } from "../../types";
 import fetchData from "../../utils/fetchData";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import MainSpinner from "../shared/MainSpinner";
+import FetchDataError from "../shared/FetchDataError";
+import NoDataAvailable from "../shared/NoDataAvailable";
 
 export default function Categories() {
   const {
@@ -25,11 +27,7 @@ export default function Categories() {
 
   if (isError) {
     console.error("Fetching categories failed:", error);
-    return (
-      <div className="text-red-500 text-center">
-        Error loading categories. Please try again later.
-      </div>
-    );
+    return <FetchDataError name="categories" />;
   }
 
   return (
@@ -40,7 +38,7 @@ export default function Categories() {
           <CategoryCard key={category._id} {...category} />
         ))
       ) : (
-        <p className="text-gray-500 text-center">No categories available.</p>
+        <NoDataAvailable name="categories" />
       )}
     </section>
   );
