@@ -6,6 +6,7 @@ import useProtectedRoutes from "../../hooks/useProtectedRoutes";
 import useModal from "@/hooks/useModal";
 import Modal from "../ui/Modal";
 import MainSpinner from "../shared/MainSpinner";
+import useScrollTop from "@/hooks/useScrollTop";
 
 export default function MainLayout() {
   const { isOpen, children, closeModal, title, desc } = useModal();
@@ -32,6 +33,10 @@ export default function MainLayout() {
       navigate("/login", { replace: true });
     }
   }, [token, pathname, navigate, publicRoutes, loading]);
+
+  // Always scroll to top of the page
+  // when moving between routes
+  useScrollTop();
 
   if (loading) {
     return <MainSpinner />;
