@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Product } from "../../types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
@@ -11,6 +11,7 @@ import MainSpinner from "../shared/MainSpinner";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
+import deleteData from "@/utils/deleteData";
 
 export default function ProductDetails() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -18,6 +19,8 @@ export default function ProductDetails() {
   const [token] = useLocalStorage("token");
 
   const { id } = useParams();
+
+  const queryClient = useQueryClient();
 
   const {
     isLoading,
@@ -39,15 +42,30 @@ export default function ProductDetails() {
     setIsFormLoading(true);
 
     handleToastPromise({
-      promise: postData({
-        url: "/cart",
-        data: {
-          productId: id,
-        },
-        token: token as string,
-      }),
+      promise: (async () => {
+        const res = await postData({
+          url: "/cart",
+          data: {
+            productId: id,
+          },
+          token: token as string,
+        });
+
+        console.log(res);
+
+        const removedItem = await deleteData({
+          url: `/wishlist/${id}`,
+          token: token as string,
+        });
+
+        console.log(removedItem);
+
+        return res;
+      })(),
       onSuccess: () => {
         setIsFormLoading(false);
+        queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
+        queryClient.refetchQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product added to your cart",
       onError: () => {

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
@@ -22,13 +22,14 @@ export default function Cart() {
 
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const {
     isLoading,
     isFetching,
     data: cartData,
     error,
     isError,
-    refetch,
   } = useQuery({
     queryKey: ["cart"],
     queryFn: () =>
@@ -53,7 +54,7 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product removed from your cart.",
       onError: () => {
@@ -75,7 +76,7 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product quantity updated.",
       onError: () => {
@@ -96,7 +97,7 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Your cart is empty now.",
       onError: () => {

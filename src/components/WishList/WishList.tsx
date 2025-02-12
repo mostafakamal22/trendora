@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { WishList } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import fetchData from "../../utils/fetchData";
@@ -16,13 +16,14 @@ export default function Wishlist() {
 
   const [token] = useLocalStorage("token");
 
+  const queryClient = useQueryClient();
+
   const {
     isLoading,
     isFetching,
     data: wishlistData,
     error,
     isError,
-    refetch,
   } = useQuery({
     queryKey: ["wishlist"],
     queryFn: () =>
@@ -46,7 +47,7 @@ export default function Wishlist() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
       },
       successMsg: "Product removed from your wishlist.",
       onError: () => {
@@ -83,7 +84,8 @@ export default function Wishlist() {
       })(),
       onSuccess: () => {
         setIsFormLoading(false);
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
+        queryClient.refetchQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product added to your cart.",
       onError: () => {
