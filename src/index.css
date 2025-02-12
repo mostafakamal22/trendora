@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    @apply overflow-x-hidden scroll-smooth scrollbar-thin scrollbar-thumb-primary-sunset scrollbar-track-primary-peach;
+    @apply overflow-x-hidden scroll-smooth scrollbar-thin scrollbar-track-primary-peach;
   }
 
   body {
