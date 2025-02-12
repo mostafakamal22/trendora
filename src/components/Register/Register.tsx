@@ -11,18 +11,24 @@ import handleError from "@/utils/handleError";
 export default function Register() {
   const navigate = useNavigate();
 
-  const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
-    useFormik({
-      initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        rePassword: "",
-        phone: "",
-      },
-      validationSchema: registerSchema,
-      onSubmit: handleRegister,
-    });
+  const {
+    getFieldProps,
+    handleSubmit,
+    errors,
+    touched,
+    isSubmitting,
+    isValid,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: "",
+    },
+    validationSchema: registerSchema,
+    onSubmit: handleRegister,
+  });
 
   async function handleRegister(values: FormikValues) {
     console.log("Register Data:", values);
@@ -141,7 +147,7 @@ export default function Register() {
         <button
           type="submit"
           className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50"
-          disabled={isSubmitting}
+          disabled={!isValid || isSubmitting}
         >
           {isSubmitting ? "Loading..." : "Register"}
         </button>

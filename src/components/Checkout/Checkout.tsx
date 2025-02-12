@@ -3,8 +3,10 @@ import { checkoutSchema } from "../../schema/checkout";
 import { useParams } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Checkout as CheckoutType } from "../../types";
+import { twMerge } from "tailwind-merge";
 import handleError from "../../utils/handleError";
 import postData from "../../utils/postData";
+import ErrorMsg from "../shared/ErrorMsg";
 
 export default function Checkout() {
   const cartId = useParams()?.id;
@@ -53,61 +55,71 @@ export default function Checkout() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="details" className="block text-gray-700">
-            Details
-          </label>
+    <section className="max-w-xl w-full mx-auto mt-5 md:mt-10">
+      <h1 className="mb-5">Complete Your Purchase</h1>
+
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="mb-3">
           <input
             type="text"
             id="details"
-            className="form-control mb-3"
+            placeholder="details"
+            aria-label="details"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.details && touched.details
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("details")}
           />
           {touched.details && errors.details && (
-            <div className="text-red-500 text-sm">{errors.details}</div>
+            <ErrorMsg message={errors.details} />
           )}
         </div>
 
-        <div>
-          <label htmlFor="phone" className="block text-gray-700">
-            Phone
-          </label>
+        <div className="mb-3">
           <input
-            type="tel"
+            type="text"
             id="phone"
-            className="form-control mb-3"
+            placeholder="phone"
+            aria-label="phone"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.phone && touched.phone
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("phone")}
           />
-          {touched.phone && errors.phone && (
-            <div className="text-red-500 text-sm">{errors.phone}</div>
-          )}
+          {touched.phone && errors.phone && <ErrorMsg message={errors.phone} />}
         </div>
 
-        <div>
-          <label htmlFor="city" className="block text-gray-700">
-            City
-          </label>
+        <div className="mb-3">
           <input
             type="text"
             id="city"
-            className="form-control mb-3"
+            placeholder="city"
+            aria-label="city"
+            className={twMerge(
+              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              errors.city && touched.city
+                ? "border-red-500 bg-custom-fadeOrange"
+                : "border-gray-300"
+            )}
             {...getFieldProps("city")}
           />
-          {touched.city && errors.city && (
-            <div className="text-red-500 text-sm">{errors.city}</div>
-          )}
+          {touched.city && errors.city && <ErrorMsg message={errors.city} />}
         </div>
 
         <button
           type="submit"
-          className="btn btn-outline-info w-100 my-5"
+          className="btn w-full px-2 py-3 !bg-blue-600 !shadow-blue-600 font-playfair"
           disabled={!isValid || isSubmitting}
         >
-          Pay now
+          Go To Payment
         </button>
       </form>
-    </div>
+    </section>
   );
 }

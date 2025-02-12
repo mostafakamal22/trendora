@@ -16,15 +16,22 @@ export default function Login() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { getFieldProps, handleSubmit, errors, touched, isSubmitting, values } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      validationSchema: loginSchema,
-      onSubmit: handleLogin,
-    });
+  const {
+    getFieldProps,
+    handleSubmit,
+    errors,
+    touched,
+    isSubmitting,
+    isValid,
+    values,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: handleLogin,
+  });
 
   async function handleLogin(values: FormikValues) {
     console.log("Login Data:", values);
@@ -136,7 +143,7 @@ export default function Login() {
             type="button"
             className="text-blue-500 block text-center font-bold disabled:cursor-not-allowed"
             onClick={handleForgotPassword}
-            disabled={isLoading}
+            disabled={!isValid || isLoading}
           >
             {isLoading ? "Please wait..." : "Forgot Password?"}
           </button>
