@@ -132,6 +132,15 @@ export default function Navbar() {
                 Brands
               </FlowbiteNavbar.Link>
             </Link>
+
+            <Link to="/allorders" className="hover:text-gray-200">
+              <FlowbiteNavbar.Link
+                as={"div"}
+                active={pathname === "/allorders"}
+              >
+                Orders
+              </FlowbiteNavbar.Link>
+            </Link>
           </FlowbiteNavbar.Collapse>
         </>
       ) : (
