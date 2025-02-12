@@ -2,19 +2,18 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../types";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
-import handleError from "../../utils/handleError";
 import ProductCarousel from "./ProductCarousel";
 import ProductInfoSection from "./ProductInfoSection";
 import FetchDataError from "../shared/FetchDataError";
 import MainSpinner from "../shared/MainSpinner";
-import toast from "@/lib/sonner";
 import NoDataAvailable from "../shared/NoDataAvailable";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function ProductDetails() {
-  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
 
@@ -35,27 +34,26 @@ export default function ProductDetails() {
   });
 
   async function onAddToCart(id: string) {
-    console.log("added to cart", id);
+    console.log("adding to cart", id);
 
-    setIsDoingProductAction(true);
+    setIsFormLoading(true);
 
-    try {
-      const res = await postData({
+    handleToastPromise({
+      promise: postData({
         url: "/cart",
         data: {
           productId: id,
         },
         token: token as string,
-      });
-
-      console.log(res);
-
-      toast.success("Product added to cart");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+      },
+      successMsg: "Product added to your cart",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   if (isLoading || isFetching) {
@@ -80,7 +78,7 @@ export default function ProductDetails() {
       <ProductInfoSection
         onAddToCart={onAddToCart}
         product={product}
-        isDoingProductAction={isDoingProductAction}
+        isFormLoading={isFormLoading}
       />
     </div>
   );

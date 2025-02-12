@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Checkout as CheckoutType } from "../../types";
 import { twMerge } from "tailwind-merge";
-import handleError from "../../utils/handleError";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function Checkout() {
   const cartId = useParams()?.id;
@@ -14,6 +15,8 @@ export default function Checkout() {
   const BASE_URL = window.location.origin;
 
   const [token] = useLocalStorage("token");
+
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const {
     isSubmitting,
@@ -34,9 +37,10 @@ export default function Checkout() {
 
   async function handleCheckout(values: FormikValues) {
     console.log("Form submitted:", values);
+    setIsFormLoading(true);
 
-    try {
-      const res = await postData<CheckoutType>({
+    handleToastPromise<CheckoutType>({
+      promise: postData<CheckoutType>({
         url: `/orders/checkout-session/${cartId}?url=${BASE_URL}`,
         data: {
           shippingAddress: {
@@ -44,14 +48,17 @@ export default function Checkout() {
           },
         },
         token: token as string,
-      });
+      }),
+      onSuccess: (data) => {
+        setIsFormLoading(false);
 
-      console.log(res);
-
-      location.href = res?.session?.url;
-    } catch (error) {
-      handleError(error);
-    }
+        location.href = data?.session?.url;
+      },
+      successMsg: "Redirecting to payment...",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   return (
@@ -66,7 +73,7 @@ export default function Checkout() {
             placeholder="details"
             aria-label="details"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.details && touched.details
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -85,7 +92,7 @@ export default function Checkout() {
             placeholder="phone"
             aria-label="phone"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.phone && touched.phone
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -102,7 +109,7 @@ export default function Checkout() {
             placeholder="city"
             aria-label="city"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.city && touched.city
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -115,9 +122,9 @@ export default function Checkout() {
         <button
           type="submit"
           className="btn w-full px-2 py-3 !bg-blue-600 !shadow-blue-600 font-playfair"
-          disabled={!isValid || isSubmitting}
+          disabled={!isValid || isSubmitting || isFormLoading}
         >
-          Go To Payment
+          {isSubmitting || isFormLoading ? "Processing..." : "Go To Payment"}
         </button>
       </form>
     </section>

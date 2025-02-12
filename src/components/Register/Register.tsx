@@ -1,16 +1,16 @@
 import { FormikValues, useFormik } from "formik";
 import { registerSchema } from "../../schema/register";
 import { useNavigate } from "react-router-dom";
-import { LoginResponse } from "../../types";
 import { twMerge } from "tailwind-merge";
+import useFormLoading from "@/hooks/useFormLoading";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
-import toast from "@/lib/sonner";
-import handleError from "@/utils/handleError";
+import handleToastPromise from "@/utils/handleToastPromise";
 
 export default function Register() {
   const navigate = useNavigate();
 
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
   const {
     getFieldProps,
     handleSubmit,
@@ -33,21 +33,23 @@ export default function Register() {
   async function handleRegister(values: FormikValues) {
     console.log("Register Data:", values);
 
-    try {
-      const res = await postData<LoginResponse>({
+    setIsFormLoading(true);
+
+    handleToastPromise({
+      promise: postData({
         url: "/auth/signup",
         data: values,
-      });
-
-      if (res && res?.token) {
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
         navigate("/login");
-      } else {
-        toast.error("No response received");
-      }
-    } catch (error) {
-      console.log(error);
-      handleError(error);
-    }
+      },
+      successMsg: "Registration complete! You can now sign in.",
+      onError: (error) => {
+        setIsFormLoading(false);
+        console.error("Registration error:", error);
+      },
+    });
   }
 
   return (
@@ -62,7 +64,7 @@ export default function Register() {
             placeholder="Name"
             aria-label="name"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.name && touched.name
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -79,7 +81,7 @@ export default function Register() {
             placeholder="Email"
             aria-label="email"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.email && touched.email
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -96,7 +98,7 @@ export default function Register() {
             placeholder="Password"
             aria-label="password"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.password && touched.password
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -115,7 +117,7 @@ export default function Register() {
             placeholder="Confirm Password"
             aria-label="Confrim Password"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.rePassword && touched.rePassword
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -134,7 +136,7 @@ export default function Register() {
             placeholder="Phone Number"
             aria-label="phone number"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.phone && touched.phone
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -146,10 +148,10 @@ export default function Register() {
 
         <button
           type="submit"
-          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50"
-          disabled={!isValid || isSubmitting}
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full"
+          disabled={!isValid || isSubmitting || isFormLoading}
         >
-          {isSubmitting ? "Loading..." : "Register"}
+          {isSubmitting || isFormLoading ? "Loading..." : "Register"}
         </button>
       </form>
     </section>

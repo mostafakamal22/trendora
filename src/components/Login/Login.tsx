@@ -8,13 +8,16 @@ import { useState } from "react";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
 import toast from "@/lib/sonner";
-import handleError from "@/utils/handleError";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function Login() {
   const navigate = useNavigate();
   const [, setToken] = useLocalStorage("token");
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const {
     getFieldProps,
@@ -36,22 +39,41 @@ export default function Login() {
   async function handleLogin(values: FormikValues) {
     console.log("Login Data:", values);
 
-    try {
-      const res = await postData<LoginResponse>({
+    setIsFormLoading(true);
+
+    handleToastPromise<LoginResponse>({
+      promise: postData<LoginResponse>({
         url: "/auth/signin",
         data: values,
-      });
-
-      if (res && res.token) {
-        setToken(res.token);
+      }),
+      onSuccess: (data) => {
+        setIsFormLoading(false);
+        setToken(data.token);
         navigate("/");
-      } else {
-        toast.error("No response received");
-      }
-    } catch (error) {
-      console.log(error);
-      handleError(error);
-    }
+      },
+      successMsg: "Welcome back!",
+      onError: (error) => {
+        setIsFormLoading(false);
+        console.error(error);
+      },
+    });
+
+    // try {
+    //   const res = await postData<LoginResponse>({
+    //     url: "/auth/signup",
+    //     data: values,
+    //   })
+
+    //   if (res && res.token) {
+    //     setToken(res.token);
+    //     navigate("/");
+    //   } else {
+    //     toast.error("No response received");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   handleError(error);
+    // }
   }
 
   async function handleForgotPassword() {
@@ -64,19 +86,35 @@ export default function Login() {
 
     setIsLoading(true);
 
-    try {
-      await postData({
+    handleToastPromise({
+      promise: postData({
         url: "/auth/forgotPasswords",
         data: { email: values.email },
-      });
+      }),
+      onSuccess: () => {
+        setIsLoading(false);
+        navigate("/forgot-password", { state: { email: values.email } });
+      },
+      successMsg: "Check your email inbox.",
+      onError: (error) => {
+        setIsLoading(false);
+        console.error(error);
+      },
+    });
 
-      navigate("/forgot-password", { state: { email: values.email } });
-    } catch (error) {
-      console.error("Forgot password request failed:", error);
-      handleError(error);
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   await postData({
+    //     url: "/auth/forgotPasswords",
+    //     data: { email: values.email },
+    //   });
+
+    //   navigate("/forgot-password", { state: { email: values.email } });
+    // } catch (error) {
+    //   console.error("Forgot password request failed:", error);
+    //   handleError(error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   }
 
   return (
@@ -91,7 +129,7 @@ export default function Login() {
             placeholder="Email"
             aria-label="email"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.email && touched.email
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -108,7 +146,7 @@ export default function Login() {
             placeholder="Password"
             aria-label="password"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm bg-custom-fadeOrange focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.password && touched.password
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -122,10 +160,10 @@ export default function Login() {
 
         <button
           type="submit"
-          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50"
-          disabled={isSubmitting}
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full"
+          disabled={!isValid || isSubmitting || isFormLoading}
         >
-          {isSubmitting ? "Loading..." : "Sign In"}
+          {isSubmitting || isFormLoading ? "Loading..." : "Sign In"}
         </button>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-2 mt-5 text-sm text-left">
@@ -143,7 +181,7 @@ export default function Login() {
             type="button"
             className="text-blue-500 block text-center font-bold disabled:cursor-not-allowed"
             onClick={handleForgotPassword}
-            disabled={!isValid || isLoading}
+            disabled={isLoading}
           >
             {isLoading ? "Please wait..." : "Forgot Password?"}
           </button>

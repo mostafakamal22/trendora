@@ -1,19 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { WishList } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import WishlistProductCard from "../WishlistProductCard/WishlistProductCard";
 import postData from "../../utils/postData";
 import deleteData from "../../utils/deleteData";
-import handleError from "../../utils/handleError";
 import MainSpinner from "../shared/MainSpinner";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import FetchDataError from "../shared/FetchDataError";
-import toast from "@/lib/sonner";
+import useFormLoading from "@/hooks/useFormLoading";
+import handleToastPromise from "@/utils/handleToastPromise";
 
 export default function Wishlist() {
-  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
 
@@ -38,50 +37,59 @@ export default function Wishlist() {
 
   async function onRemove(id: string) {
     console.log("removed from wishlist", id);
-    setIsDoingProductAction(true);
-    try {
-      const res = await deleteData({
+    setIsFormLoading(true);
+
+    handleToastPromise({
+      promise: deleteData({
         url: `/wishlist/${id}`,
-
         token: token as string,
-      });
-
-      console.log(res);
-
-      refetch();
-      toast.success("Product removed from wishlist.");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+        refetch();
+      },
+      successMsg: "Product removed from your wishlist.",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   async function onAddToCart(id: string) {
     console.log("added to cart", id);
-    setIsDoingProductAction(true);
-    try {
-      const res = await postData({
-        url: "/cart",
-        data: {
-          productId: id,
-        },
-        token: token as string,
-      });
 
-      console.log(res);
+    setIsFormLoading(true);
 
-      const removedItem = await onRemove(id);
+    handleToastPromise({
+      promise: (async () => {
+        const res = await postData({
+          url: "/cart",
+          data: {
+            productId: id,
+          },
+          token: token as string,
+        });
 
-      console.log(removedItem);
+        console.log(res);
 
-      refetch();
-      toast.success("Product added to cart.");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+        const removedItem = await deleteData({
+          url: `/wishlist/${id}`,
+          token: token as string,
+        });
+
+        console.log(removedItem);
+
+        return res;
+      })(),
+      onSuccess: () => {
+        setIsFormLoading(false);
+        refetch();
+      },
+      successMsg: "Product added to your cart.",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   if (isLoading || isFetching) {
@@ -104,7 +112,7 @@ export default function Wishlist() {
               key={product._id}
               onAddToCart={onAddToCart}
               onRemove={onRemove}
-              isDoingProductAction={isDoingProductAction}
+              isFormLoading={isFormLoading}
               {...product}
             />
           ))}

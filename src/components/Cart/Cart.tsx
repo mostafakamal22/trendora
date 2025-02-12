@@ -3,19 +3,18 @@ import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
 import { CreditCard, Trash } from "lucide-react";
-import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
-import handleError from "../../utils/handleError";
 import deleteData from "../../utils/deleteData";
 import updateData from "../../utils/updateData";
 import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
-import toast from "@/lib/sonner";
 import NoDataAvailable from "../shared/NoDataAvailable";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function Cart() {
-  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
 
@@ -45,62 +44,65 @@ export default function Cart() {
   async function onRemoveFromCart(productId: string) {
     console.log("removed from cart", productId);
 
-    setIsDoingProductAction(true);
+    setIsFormLoading(true);
 
-    try {
-      const res = await deleteData({
+    handleToastPromise({
+      promise: deleteData({
         url: `/cart/${productId}`,
         token: token as string,
-      });
-
-      console.log(res);
-      refetch();
-
-      toast.success("Product removed from cart.");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+        refetch();
+      },
+      successMsg: "Product removed from your cart.",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   async function updateProductCount(productId: string, newCount: number) {
     if (newCount <= 0) return;
-    setIsDoingProductAction(true);
-    try {
-      const res = await updateData({
+
+    setIsFormLoading(true);
+
+    handleToastPromise({
+      promise: updateData({
         url: `/cart/${productId}`,
         data: { count: newCount },
         token: token as string,
-      });
-
-      console.log(res);
-      refetch();
-      toast.success("Product quantity updated.");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+        refetch();
+      },
+      successMsg: "Product quantity updated.",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   async function onClearCart() {
     console.log("Clearing cart");
-    setIsDoingProductAction(true);
-    try {
-      const res = await deleteData({
+
+    setIsFormLoading(true);
+
+    handleToastPromise({
+      promise: deleteData({
         url: "/cart",
         token: token as string,
-      });
-
-      console.log(res);
-      refetch();
-      toast.success("Your cart is empty.");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+        refetch();
+      },
+      successMsg: "Your cart is empty now.",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   function onCheckout(cartId: string) {
@@ -120,7 +122,7 @@ export default function Cart() {
 
   return (
     <section className="mt-5 md:mt-10">
-      <h1>Almost Yours!</h1>
+      {cartData?.numOfCartItems ? <h1>Almost Yours!</h1> : <h1>Your Cart</h1>}
 
       {cartData?.numOfCartItems ? (
         <>
@@ -142,7 +144,7 @@ export default function Cart() {
                 productId={productElement?.product?._id}
                 onRemoveFromCart={onRemoveFromCart}
                 updateProductCount={updateProductCount}
-                isDoingProductAction={isDoingProductAction}
+                isFormLoading={isFormLoading}
                 {...productElement.product}
               />
             ))}
@@ -152,7 +154,7 @@ export default function Cart() {
             <button
               onClick={() => onCheckout(cartData?.cartId)}
               className="btn flex-1 px-4 py-2 !bg-blue-600 !shadow-blue-600"
-              disabled={isDoingProductAction}
+              disabled={isFormLoading}
             >
               <CreditCard />
               Checkout
@@ -160,7 +162,7 @@ export default function Cart() {
             <button
               onClick={onClearCart}
               className="btn flex-1 px-4 py-2 !bg-yellow-600 !shadow-yellow-600"
-              disabled={isDoingProductAction}
+              disabled={isFormLoading}
             >
               <Trash />
               Clear Cart

@@ -4,40 +4,50 @@ import { forgotPasswordSchema } from "../../schema/forgotPassword";
 import { twMerge } from "tailwind-merge";
 import postData from "../../utils/postData";
 import ErrorMsg from "../shared/ErrorMsg";
-import toast from "@/lib/sonner";
-import handleError from "@/utils/handleError";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function ForgotPassword() {
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const email = location.state?.email || "";
 
-  const { getFieldProps, handleSubmit, errors, touched, isSubmitting } =
-    useFormik({
-      initialValues: {
-        resetCode: "",
-      },
-      validationSchema: forgotPasswordSchema,
-      onSubmit: handleVerifyResetCode,
-    });
+  const {
+    getFieldProps,
+    handleSubmit,
+    errors,
+    touched,
+    isSubmitting,
+    isValid,
+  } = useFormik({
+    initialValues: {
+      resetCode: "",
+    },
+    validationSchema: forgotPasswordSchema,
+    onSubmit: handleVerifyResetCode,
+  });
 
   async function handleVerifyResetCode(values: FormikValues) {
-    try {
-      const res = await postData({
+    setIsFormLoading(true);
+
+    handleToastPromise({
+      promise: postData({
         url: "/auth/verifyResetCode",
         data: { resetCode: values.resetCode?.trim() },
-      });
-
-      if (res) {
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
         navigate("/reset-password", { state: { email } });
-      } else {
-        toast.error("Invalid reset code. Please try again.");
-      }
-    } catch (error) {
-      console.error("Reset code verification failed:", error);
-      handleError(error);
-    }
+      },
+      successMsg: "Great, let's reset the password.",
+      onError: (error) => {
+        setIsFormLoading(false);
+        console.error(error);
+      },
+    });
   }
 
   if (!email) {
@@ -59,7 +69,7 @@ export default function ForgotPassword() {
             placeholder="Enter Reset Code"
             aria-label="Reset Code"
             className={twMerge(
-              "w-full px-3 py-2 border-transparent rounded-md border text-gray-800 shadow-sm focus:ring-2 focus:ring-primary-default focus:border-primary-default transition-all duration-300 ease-in-out disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed",
+              "form-input",
               errors.resetCode && touched.resetCode
                 ? "border-red-500 bg-custom-fadeOrange"
                 : "border-gray-300"
@@ -73,10 +83,10 @@ export default function ForgotPassword() {
 
         <button
           type="submit"
-          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full disabled:opacity-50 !bg-blue-600 !shadow-blue-600"
-          disabled={isSubmitting}
+          className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full !bg-blue-600 !shadow-blue-600"
+          disabled={!isValid || isSubmitting || isFormLoading}
         >
-          {isSubmitting ? "Verifying..." : "Verify Code"}
+          {isSubmitting || isFormLoading ? "Verifying..." : "Verify Code"}
         </button>
       </form>
     </div>

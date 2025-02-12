@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { Products as ProductsType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
 import postData from "../../utils/postData";
-import handleError from "../../utils/handleError";
 import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
-import toast from "@/lib/sonner";
+import handleToastPromise from "@/utils/handleToastPromise";
+import useFormLoading from "@/hooks/useFormLoading";
 
 export default function Products() {
-  const [isDoingProductAction, setIsDoingProductAction] = useState(false);
+  const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
 
@@ -33,49 +32,47 @@ export default function Products() {
   async function onAddToWishlist(id: string) {
     console.log("added to whislist", id);
 
-    setIsDoingProductAction(true);
+    setIsFormLoading(true);
 
-    try {
-      const res = await postData({
+    handleToastPromise({
+      promise: postData({
         url: "/wishlist",
         data: {
           productId: id,
         },
         token: token as string,
-      });
-
-      console.log(res);
-
-      toast.success("Product added to wishlist");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+      },
+      successMsg: "Product added to your wishlist",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   async function onAddToCart(id: string) {
     console.log("added to cart", id);
 
-    setIsDoingProductAction(true);
+    setIsFormLoading(true);
 
-    try {
-      const res = await postData({
+    handleToastPromise({
+      promise: postData({
         url: "/cart",
         data: {
           productId: id,
         },
         token: token as string,
-      });
-
-      console.log(res);
-
-      toast.success("Product added to cart");
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsDoingProductAction(false);
-    }
+      }),
+      onSuccess: () => {
+        setIsFormLoading(false);
+      },
+      successMsg: "Product added to your cart",
+      onError: () => {
+        setIsFormLoading(false);
+      },
+    });
   }
 
   if (isLoading || isFetching) {
@@ -97,7 +94,7 @@ export default function Products() {
             key={product._id}
             onAddToCart={onAddToCart}
             onAddToWishlist={onAddToWishlist}
-            isDoingProductAction={isDoingProductAction}
+            isFormLoading={isFormLoading}
             {...product}
           />
         ))
