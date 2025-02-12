@@ -3,6 +3,9 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Orders as OrdersType } from "../../types";
 import OrderProductCard from "../OrderProductCard/OrderProductCard";
 import fetchData from "../../utils/fetchData";
+import MainSpinner from "../shared/MainSpinner";
+import FetchDataError from "../shared/FetchDataError";
+import NoDataAvailable from "../shared/NoDataAvailable";
 
 export default function Orders() {
   const [token] = useLocalStorage("token");
@@ -27,46 +30,48 @@ export default function Orders() {
   });
 
   if (isLoading || isFetching) {
-    return <div>Loading orders...</div>;
+    return <MainSpinner size={50} className="h-[50vh]" />;
   }
 
   if (isError) {
     console.error(error);
-    return <div>Error loading orders.</div>;
+    return <FetchDataError name="cart items" />;
   }
 
   return (
-    <div className="p-4 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-semibold text-gray-800">
-        My Orders ({ordersData?.length ?? 0})
-      </h2>
+    <section className="mt-5 md:mt-10">
+      <h1 className="mb-5">Track Your Orders ({ordersData?.length ?? 0}) </h1>
 
       {ordersData?.length ? (
         <div className="grid gap-4 mt-4">
           {ordersData.map((order) => (
             <div
               key={order._id}
-              className="border p-4 rounded-lg shadow-md bg-gray-100"
+              className="border p-4 rounded-lg shadow-md bg-gray-50"
             >
-              <h3 className="text-lg font-medium text-gray-800">
+              <h3 className="text-gray-800 font-kumbh">
                 Order ID: {order._id}
               </h3>
-              <p className="text-gray-700">
-                Total: ${order.totalOrderPrice.toFixed(2)}
-              </p>
-              <p className="text-gray-700">
-                Payment: {order.paymentMethodType === "card" ? "Card" : "Cash"}
-              </p>
-              <p className="text-gray-700">
-                Status: {order.isPaid ? "Paid" : "Pending"} |{" "}
-                {order.isDelivered ? "Delivered" : "Not Delivered"}
-              </p>
-              <p className="text-gray-700">
-                Shipping: {order.shippingAddress?.city},{" "}
-                {order.shippingAddress?.details}
-              </p>
 
-              <div className="mt-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                  Total: ${order.totalOrderPrice.toFixed(2)}
+                </p>
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                  Payment:{" "}
+                  {order.paymentMethodType === "card" ? "Card" : "Cash"}
+                </p>
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                  Status: {order.isPaid ? "Paid" : "Pending"} |{" "}
+                  {order.isDelivered ? "Delivered" : "Not Delivered"}
+                </p>
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                  Shipping: {order.shippingAddress?.city},{" "}
+                  {order.shippingAddress?.details}
+                </p>
+              </div>
+
+              <div className="mt-4 space-y-2">
                 {order.cartItems.map((item) => (
                   <OrderProductCard key={item._id} {...item} />
                 ))}
@@ -75,8 +80,8 @@ export default function Orders() {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 mt-2">No orders found.</p>
+        <NoDataAvailable name="orders" />
       )}
-    </div>
+    </section>
   );
 }
