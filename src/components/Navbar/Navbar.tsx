@@ -2,6 +2,9 @@ import { Avatar, Dropdown, Navbar as FlowbiteNavbar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { ShoppingCart } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Cart } from "@/types";
+import fetchData from "@/utils/fetchData";
 
 import logo from "@/assets/images/logo-1.png";
 
@@ -12,6 +15,18 @@ export default function Navbar() {
   const pathname = useLocation()?.pathname;
 
   const navigate = useNavigate();
+
+  const { data: cartData } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () =>
+      fetchData<Cart>({
+        url: "/cart",
+        token: token as string | undefined,
+      }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   function handleLogout() {
     setToken(null);
@@ -60,7 +75,7 @@ export default function Navbar() {
               <ShoppingCart className="text-gray-400" size={30} />
 
               <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
-                5
+                {cartData?.numOfCartItems ?? "-"}
               </span>
             </Link>
 

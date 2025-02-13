@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Product } from "../../types";
+import { Cart, Product } from "../../types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import fetchData from "../../utils/fetchData";
@@ -21,6 +21,18 @@ export default function ProductDetails() {
   const { id } = useParams();
 
   const queryClient = useQueryClient();
+
+  const { data: cartData } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () =>
+      fetchData<Cart>({
+        url: "/cart",
+        token: token as string | undefined,
+      }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const {
     isLoading,
@@ -97,6 +109,7 @@ export default function ProductDetails() {
         onAddToCart={onAddToCart}
         product={product}
         isFormLoading={isFormLoading}
+        cartData={cartData}
       />
     </div>
   );

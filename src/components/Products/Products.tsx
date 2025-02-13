@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Products as ProductsType } from "../../types";
+import { Cart, Products as ProductsType, WishList } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
@@ -16,6 +16,30 @@ export default function Products() {
   const [token] = useLocalStorage("token");
 
   const queryClient = useQueryClient();
+
+  const { data: wishlistData } = useQuery({
+    queryKey: ["wishlist"],
+    queryFn: () =>
+      fetchData<WishList>({
+        url: "/wishlist",
+        token: token as string | undefined,
+      }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: cartData } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () =>
+      fetchData<Cart>({
+        url: "/cart",
+        token: token as string | undefined,
+      }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const {
     isLoading,
@@ -46,7 +70,7 @@ export default function Products() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
-        queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
+        queryClient.refetchQueries({ queryKey: ["wishlist"], exact: true });
       },
       successMsg: "Product added to your wishlist",
       onError: () => {
@@ -99,6 +123,8 @@ export default function Products() {
             onAddToCart={onAddToCart}
             onAddToWishlist={onAddToWishlist}
             isFormLoading={isFormLoading}
+            wishlistData={wishlistData}
+            cartData={cartData}
             {...product}
           />
         ))

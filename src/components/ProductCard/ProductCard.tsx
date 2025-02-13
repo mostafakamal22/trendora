@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
-import { Product } from "../../types";
-import { FaRegHeart } from "react-icons/fa6";
+import { Cart, Product, WishList } from "../../types";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaStar } from "react-icons/fa";
+import { FaShoppingCart, FaStar } from "react-icons/fa";
 
 interface ProductCardProps extends Product {
   onAddToWishlist: (id: string) => void;
   onAddToCart: (id: string) => void;
   isFormLoading: boolean;
+  wishlistData: WishList | undefined;
+  cartData: Cart | undefined;
 }
 
 export default function ProductCard({
@@ -22,7 +24,15 @@ export default function ProductCard({
   onAddToCart,
   onAddToWishlist,
   isFormLoading,
+  wishlistData,
+  cartData,
 }: ProductCardProps) {
+  const isProductInWishlist = wishlistData?.data?.find((p) => p?._id === id);
+
+  const isProductInCart = cartData?.data?.products?.find(
+    (p) => p?.product?._id === id
+  );
+
   return (
     <Link to={`/productDetails/${id}`} className="card relative group">
       <div className="absolute top-0 w-full h-80 bg-transparent group-hover:bg-black/15 transition-all duration-200 ease-in-out">
@@ -34,10 +44,14 @@ export default function ProductCard({
               onAddToWishlist(id);
             }}
             className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-            title="Add to Wishlist"
-            disabled={isFormLoading}
+            title={isProductInCart ? "Already in Wishlist" : "Add to Wishlist"}
+            disabled={isFormLoading || Boolean(isProductInWishlist)}
           >
-            <FaRegHeart size={20} />
+            {isProductInWishlist ? (
+              <FaHeart size={20} />
+            ) : (
+              <FaRegHeart size={20} />
+            )}
           </button>
           <button
             onClick={(event) => {
@@ -46,10 +60,14 @@ export default function ProductCard({
               onAddToCart(id);
             }}
             className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-            title="Add to Cart"
-            disabled={isFormLoading}
+            title={isProductInCart ? "Already in Cart" : "Add to Cart"}
+            disabled={isFormLoading || Boolean(isProductInCart)}
           >
-            <MdAddShoppingCart size={20} />
+            {isProductInCart ? (
+              <FaShoppingCart size={20} />
+            ) : (
+              <MdAddShoppingCart size={20} />
+            )}
           </button>
         </div>
 
