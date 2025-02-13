@@ -7,6 +7,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import "@/assets/styles/swiper.css";
+
 export default function ProductCarousel({ images, title }: Product) {
   const pagination: PaginationOptions = {
     bulletElement: "img",
