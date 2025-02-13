@@ -6,11 +6,11 @@ import logo from "@/assets/images/logo-1.png";
 export default function Footer() {
   return (
     <FlowbitFooter
+      className="mt-10 container mx-auto w-full border-t border-primary-sunset rounded-none shadow-none"
       container
-      className="mt-10"
       theme={{
         groupLink: {
-          base: "flex flex-wrap text-sm text-gray-500 dark:text-white",
+          base: "flex flex-wrap text-sm text-gray-500",
           link: {
             base: "me-4 last:mr-0 md:mr-6",
             href: "hover:underline",
