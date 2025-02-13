@@ -48,7 +48,9 @@ export default function ProductCard({
               onAddToWishlist(id);
             }}
             className="bg-green-600 text-primary-peach p-2 rounded-full transition-all ease-in-out duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-            title={isProductInCart ? "Already in Wishlist" : "Add to Wishlist"}
+            title={
+              isProductInWishlist ? "Already in Wishlist" : "Add to Wishlist"
+            }
             disabled={isFormLoading || Boolean(isProductInWishlist)}
           >
             {isProductInWishlist ? (

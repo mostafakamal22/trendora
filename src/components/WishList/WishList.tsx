@@ -105,7 +105,7 @@ export default function Wishlist() {
 
   return (
     <section className="mt-5 md:mt-10">
-      <h2>Your Favorite Picks ({wishlistData?.count ?? 0})</h2>
+      <h2>{wishlistData?.count ? "Your Favorite Picks" : "Your Wishlist"}</h2>
 
       {wishlistData?.count ? (
         <div className="grid gap-4 mt-4">

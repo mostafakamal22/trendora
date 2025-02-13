@@ -9,6 +9,7 @@ import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
+import deleteData from "@/utils/deleteData";
 
 export default function Products() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -85,15 +86,29 @@ export default function Products() {
     setIsFormLoading(true);
 
     handleToastPromise({
-      promise: postData({
-        url: "/cart",
-        data: {
-          productId: id,
-        },
-        token: token as string,
-      }),
+      promise: (async () => {
+        const res = await postData({
+          url: "/cart",
+          data: {
+            productId: id,
+          },
+          token: token as string,
+        });
+
+        console.log(res);
+
+        const removedItem = await deleteData({
+          url: `/wishlist/${id}`,
+          token: token as string,
+        });
+
+        console.log(removedItem);
+
+        return res;
+      })(),
       onSuccess: () => {
         setIsFormLoading(false);
+        queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
         queryClient.refetchQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product added to your cart",

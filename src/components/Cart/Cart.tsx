@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
+import { BsCreditCard, BsTrashFill } from "react-icons/bs";
 import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
 import deleteData from "../../utils/deleteData";
@@ -11,7 +12,6 @@ import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
-import { BsCreditCard, BsTrashFill } from "react-icons/bs";
 
 export default function Cart() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -123,7 +123,7 @@ export default function Cart() {
 
   return (
     <section className="mt-5 md:mt-10">
-      {cartData?.numOfCartItems ? <h1>Almost Yours!</h1> : <h1>Your Cart</h1>}
+      <h1>{cartData?.numOfCartItems ? "Almost Yours!" : "Your Cart"}</h1>
 
       {cartData?.numOfCartItems ? (
         <>
