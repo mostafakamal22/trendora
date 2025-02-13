@@ -1,5 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaryFullback } from "../shared/ErrorBoundaryFullback";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import useProtectedRoutes from "../../hooks/useProtectedRoutes";
@@ -46,7 +48,11 @@ export default function MainLayout() {
     <>
       <Navbar />
       <main className="min-h-screen container text-center mx-auto px-3 py-5 md:py-10">
-        <Outlet />
+        <ErrorBoundary FallbackComponent={ErrorBoundaryFullback}>
+          <Suspense fallback={<MainSpinner size={50} className="h-[50vh]" />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
       <Modal

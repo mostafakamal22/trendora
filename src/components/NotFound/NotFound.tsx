@@ -15,7 +15,10 @@ export default function NotFound() {
           home page.{" "}
         </p>
 
-        <Link to="/" className="btn px-5 py-2.5 my-5 w-fit mx-auto">
+        <Link
+          to="/"
+          className="btn px-5 py-2.5 my-5 w-fit mx-auto font-playfair"
+        >
           Back to Homepage
         </Link>
       </div>
