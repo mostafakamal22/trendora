@@ -1,5 +1,5 @@
 import { Cart, Product } from "@/types";
-import { ShoppingCart } from "lucide-react";
+import { BsCart } from "react-icons/bs";
 
 type props = {
   product: Product;
@@ -45,7 +45,7 @@ export default function ProductInfoSection({
         className="btn px-4 py-3 mt-10 lg:mt-auto font-semibold"
         disabled={isFormLoading || Boolean(isProductInCart)}
       >
-        <ShoppingCart size={20} />
+        <BsCart size={20} />
         {isProductInCart && "Already in your cart"}
         {!isProductInCart && isFormLoading && "Adding to cart..."}
         {!isProductInCart && !isFormLoading && "Add to Cart"}

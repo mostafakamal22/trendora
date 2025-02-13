@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import { Cart, Product, WishList } from "../../types";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
-import { MdAddShoppingCart } from "react-icons/md";
-import { FaShoppingCart, FaStar } from "react-icons/fa";
+import {
+  BsCart,
+  BsCartFill,
+  BsHeart,
+  BsHeartFill,
+  BsStarFill,
+} from "react-icons/bs";
 
 interface ProductCardProps extends Product {
   onAddToWishlist: (id: string) => void;
@@ -48,9 +52,9 @@ export default function ProductCard({
             disabled={isFormLoading || Boolean(isProductInWishlist)}
           >
             {isProductInWishlist ? (
-              <FaHeart size={20} />
+              <BsHeartFill size={20} />
             ) : (
-              <FaRegHeart size={20} />
+              <BsHeart size={20} />
             )}
           </button>
           <button
@@ -63,16 +67,12 @@ export default function ProductCard({
             title={isProductInCart ? "Already in Cart" : "Add to Cart"}
             disabled={isFormLoading || Boolean(isProductInCart)}
           >
-            {isProductInCart ? (
-              <FaShoppingCart size={20} />
-            ) : (
-              <MdAddShoppingCart size={20} />
-            )}
+            {isProductInCart ? <BsCartFill size={20} /> : <BsCart size={20} />}
           </button>
         </div>
 
         <span className="absolute bottom-2 left-2 px-2 py-1 text-xs font-bold bg-custom-fadeOrange text-custom-orange flex items-center gap-1 rounded-md shadow">
-          <FaStar className="fill-primary-default" size={16} />
+          <BsStarFill className="fill-primary-default" size={16} />
           {ratingsAverage}
         </span>
 

@@ -2,7 +2,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cart as CartType } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
-import { CreditCard, Trash } from "lucide-react";
 import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
 import deleteData from "../../utils/deleteData";
@@ -12,6 +11,7 @@ import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
+import { BsCreditCard, BsTrashFill } from "react-icons/bs";
 
 export default function Cart() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -157,7 +157,7 @@ export default function Cart() {
               className="btn flex-1 px-4 py-2 !bg-blue-600 !shadow-blue-600"
               disabled={isFormLoading}
             >
-              <CreditCard />
+              <BsCreditCard size={18} />
               Checkout
             </button>
             <button
@@ -165,7 +165,7 @@ export default function Cart() {
               className="btn flex-1 px-4 py-2 !bg-yellow-600 !shadow-yellow-600"
               disabled={isFormLoading}
             >
-              <Trash />
+              <BsTrashFill size={18} />
               Clear Cart
             </button>
           </div>

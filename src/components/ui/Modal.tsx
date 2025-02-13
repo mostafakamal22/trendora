@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { BsX } from "react-icons/bs";
 
 interface ModalProps {
   isOpen: boolean;
@@ -30,7 +30,7 @@ export default function Modal({
               className="absolute right-1 sm:right-2 top-1 sm:top-4 hover:opacity-90 focus:opacity-90 focus-visible:outline-none"
               aria-label="Close"
             >
-              <X className="h-6 w-6 text-custom-orange" size={16} />
+              <BsX className="text-custom-orange" size={30} />
             </button>
           </Dialog.Close>
 

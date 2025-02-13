@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react";
+import { BsTrashFill } from "react-icons/bs";
 import { ProductMinimalDetails } from "../../types";
 
 interface CartProductCardProps extends ProductMinimalDetails {
@@ -57,7 +57,7 @@ export default function CartProductCard({
         className="btn px-4 py-2 !bg-red-500 !shadow-red-500"
         disabled={isFormLoading}
       >
-        <Trash />
+        <BsTrashFill size={18} />
         Remove
       </button>
     </div>

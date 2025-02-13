@@ -1,9 +1,9 @@
 import { Avatar, Dropdown, Navbar as FlowbiteNavbar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { ShoppingCart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Cart } from "@/types";
+import { BsCart } from "react-icons/bs";
 import fetchData from "@/utils/fetchData";
 
 import logo from "@/assets/images/logo-1.png";
@@ -72,7 +72,7 @@ export default function Navbar() {
               className="mr-5 relative"
               title="Shoping Cart Items"
             >
-              <ShoppingCart className="text-gray-400" size={30} />
+              <BsCart className="text-gray-400" size={30} />
 
               <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
                 {cartData?.numOfCartItems ?? "-"}
