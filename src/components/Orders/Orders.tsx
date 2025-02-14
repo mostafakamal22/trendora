@@ -3,9 +3,9 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Orders as OrdersType } from "../../types";
 import OrderProductCard from "../OrderProductCard/OrderProductCard";
 import fetchData from "../../utils/fetchData";
-import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
+import OrdersSkeleton from "./OrdersSkeleton";
 
 export default function Orders() {
   const [token] = useLocalStorage("token");
@@ -30,7 +30,7 @@ export default function Orders() {
   });
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <OrdersSkeleton />;
   }
 
   if (isError) {
