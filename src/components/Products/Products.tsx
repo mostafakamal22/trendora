@@ -5,7 +5,6 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
-import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
@@ -15,6 +14,7 @@ import postData from "@/utils/postData";
 import ProductsPagination from "./ProductsPagination";
 import ProductsFilters from "./ProductsFilters";
 import ProductsHeader from "./ProductsHeader";
+import ProductsSkeleton from "./ProductsSkeleton";
 
 export default function Products() {
   const [token] = useLocalStorage("token");
@@ -164,7 +164,7 @@ export default function Products() {
   }
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <ProductsSkeleton />;
   }
 
   if (isError) {
