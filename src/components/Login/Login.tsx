@@ -13,7 +13,9 @@ import useFormLoading from "@/hooks/useFormLoading";
 
 export default function Login() {
   const navigate = useNavigate();
+
   const [, setToken] = useLocalStorage("token");
+  const [, setUser] = useLocalStorage("user");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,7 +50,10 @@ export default function Login() {
       }),
       onSuccess: (data) => {
         setIsFormLoading(false);
+
         setToken(data.token);
+        setUser(data?.user);
+
         navigate("/");
       },
       successMsg: "Welcome back!",
@@ -57,23 +62,6 @@ export default function Login() {
         console.error(error);
       },
     });
-
-    // try {
-    //   const res = await postData<LoginResponse>({
-    //     url: "/auth/signup",
-    //     data: values,
-    //   })
-
-    //   if (res && res.token) {
-    //     setToken(res.token);
-    //     navigate("/");
-    //   } else {
-    //     toast.error("No response received");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    //   handleError(error);
-    // }
   }
 
   async function handleForgotPassword() {

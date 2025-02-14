@@ -2,7 +2,7 @@ import { Avatar, Dropdown, Navbar as FlowbiteNavbar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useQuery } from "@tanstack/react-query";
-import { Cart } from "@/types";
+import { Cart, LoginResponse } from "@/types";
 import { BsCart } from "react-icons/bs";
 import fetchData from "@/utils/fetchData";
 
@@ -11,6 +11,7 @@ import logo from "@/assets/images/logo-1.png";
 export default function Navbar() {
   const [token, setToken] = useLocalStorage("token");
   const [, setUserId] = useLocalStorage("userId");
+  const [user, setUser] = useLocalStorage<LoginResponse["user"] | null>("user");
 
   const pathname = useLocation()?.pathname;
 
@@ -31,6 +32,8 @@ export default function Navbar() {
   function handleLogout() {
     setToken(null);
     setUserId(null);
+    setUser(null);
+
     navigate("/login");
   }
 
@@ -92,9 +95,11 @@ export default function Navbar() {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">Bonnie Green</span>
-                <span className="block truncate text-sm font-medium">
-                  name@flowbite.com
+                <span className="block text-sm truncate">
+                  {user?.name || "N/A"}
+                </span>
+                <span className="max-w-[200px] block truncate text-sm font-medium">
+                  {user?.email || "N/A"}
                 </span>
               </Dropdown.Header>
 

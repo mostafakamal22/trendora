@@ -35,7 +35,6 @@ export default function useProtectedRoutes() {
           token: token as string,
         });
 
-        console.log("Verify Response", res);
         setUserId(res?.decoded?.id);
       } catch (error) {
         console.error("Token verification failed:", error);
