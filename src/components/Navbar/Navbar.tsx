@@ -8,6 +8,16 @@ import fetchData from "@/utils/fetchData";
 
 import logo from "@/assets/images/logo-1.png";
 
+const routes = [
+  { path: "/", label: "Home" },
+  { path: "/cart", label: "Cart" },
+  { path: "/wishlist", label: "Wishlist" },
+  { path: "/products", label: "Products" },
+  { path: "/categories", label: "Categories" },
+  { path: "/brands", label: "Brands" },
+  { path: "/allorders", label: "Orders" },
+];
+
 export default function Navbar() {
   const [token, setToken] = useLocalStorage("token");
   const [, setUserId] = useLocalStorage("userId");
@@ -47,7 +57,7 @@ export default function Navbar() {
           list: "mt-4 flex flex-col lg:mt-0 lg:flex-row lg:space-x-8 lg:text-sm lg:font-medium",
         },
         link: {
-          base: "block py-2 pl-3 pr-4 lg:p-0 transition-all duration-200 ease-in-out lg:text-base font-playfair font-semibold",
+          base: "block py-2 pl-3 pr-4 lg:p-0 transition-all duration-200 ease-in-out font-playfair font-bold uppercase",
           active: {
             on: "bg-primary-default text-white dark:text-white lg:bg-transparent lg:text-primary-default",
             off: "border-b border-gray-100 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:border-0 lg:hover:bg-transparent lg:hover:text-primary-default lg:dark:hover:bg-transparent lg:dark:hover:text-white",
@@ -114,53 +124,13 @@ export default function Navbar() {
           </div>
 
           <FlowbiteNavbar.Collapse>
-            <Link to="/" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link as={"div"} active={pathname === "/"}>
-                Home
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/cart" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link as={"div"} active={pathname === "/cart"}>
-                Cart
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/wishlist" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link as={"div"} active={pathname === "/wishlist"}>
-                Wishlist
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/products" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link as={"div"} active={pathname === "/products"}>
-                Products
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/categories" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link
-                as={"div"}
-                active={pathname === "/categories"}
-              >
-                Categories
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/brands" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link as={"div"} active={pathname === "/brands"}>
-                Brands
-              </FlowbiteNavbar.Link>
-            </Link>
-
-            <Link to="/allorders" className="hover:text-gray-200">
-              <FlowbiteNavbar.Link
-                as={"div"}
-                active={pathname === "/allorders"}
-              >
-                Orders
-              </FlowbiteNavbar.Link>
-            </Link>
+            {routes.map((route) => (
+              <Link key={route.path} to={route.path}>
+                <FlowbiteNavbar.Link as="div" active={pathname === route.path}>
+                  {route.label}
+                </FlowbiteNavbar.Link>
+              </Link>
+            ))}
           </FlowbiteNavbar.Collapse>
         </>
       ) : (
@@ -168,13 +138,13 @@ export default function Navbar() {
           <FlowbiteNavbar.Toggle />
 
           <FlowbiteNavbar.Collapse>
-            <Link to="/login" className="hover:text-gray-200">
+            <Link to="/login">
               <FlowbiteNavbar.Link as={"div"} active={pathname === "/login"}>
                 Login
               </FlowbiteNavbar.Link>
             </Link>
 
-            <Link to="/register" className="hover:text-gray-200">
+            <Link to="/register">
               <FlowbiteNavbar.Link as={"div"} active={pathname === "/register"}>
                 Register
               </FlowbiteNavbar.Link>
