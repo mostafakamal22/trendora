@@ -2,7 +2,10 @@ import CategoriesHeader from "./CategoriesHeader";
 
 export default function CategoriesSkeleton() {
   return (
-    <section className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
+    <div
+      role="status"
+      className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10"
+    >
       <CategoriesHeader />
 
       {Array.from({ length: 6 }).map((_, index) => (
@@ -21,6 +24,8 @@ export default function CategoriesSkeleton() {
           <div className="absolute bottom-4 left-[15%] right-[15%] h-6 bg-primary-peach rounded-lg mx-auto"></div>
         </div>
       ))}
-    </section>
+
+      <span className="sr-only">Loading...</span>
+    </div>
   );
 }
