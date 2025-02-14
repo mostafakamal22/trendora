@@ -7,11 +7,11 @@ import fetchData from "../../utils/fetchData";
 import CartProductCard from "../CartProductCard/CartProductCard";
 import deleteData from "../../utils/deleteData";
 import updateData from "../../utils/updateData";
-import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
+import CartSkeleton from "./CartSkeleton";
 
 export default function Cart() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -113,7 +113,7 @@ export default function Cart() {
   }
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <CartSkeleton />;
   }
 
   if (isError) {
