@@ -4,9 +4,12 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { useQuery } from "@tanstack/react-query";
 import { Cart, LoginResponse } from "@/types";
 import { BsCart } from "react-icons/bs";
-import fetchData from "@/utils/fetchData";
+import { BiMenu } from "react-icons/bi";
+import { useState } from "react";
 
+import fetchData from "@/utils/fetchData";
 import logo from "@/assets/images/logo-1.png";
+import MobileNavigation from "./MobileNavigation";
 
 const routes = [
   { path: "/", label: "Home" },
@@ -22,6 +25,8 @@ export default function Navbar() {
   const [token, setToken] = useLocalStorage("token");
   const [, setUserId] = useLocalStorage("userId");
   const [user, setUser] = useLocalStorage<LoginResponse["user"] | null>("user");
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const pathname = useLocation()?.pathname;
 
@@ -79,12 +84,8 @@ export default function Navbar() {
 
       {token ? (
         <>
-          <div className="flex lg:order-2 lg:items-center">
-            <Link
-              to="/cart"
-              className="mr-5 relative"
-              title="Shoping Cart Items"
-            >
+          <div className="flex lg:order-2 lg:items-center gap-2 lg:gap-4">
+            <Link to="/cart" className="relative" title="Shoping Cart Items">
               <BsCart className="text-gray-400" size={30} />
 
               <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
@@ -120,7 +121,13 @@ export default function Navbar() {
                 Sign out
               </Dropdown.Item>
             </Dropdown>
-            <FlowbiteNavbar.Toggle className="ml-2" />
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden text-primary-default"
+            >
+              <BiMenu size={30} />{" "}
+            </button>
           </div>
 
           <FlowbiteNavbar.Collapse>
@@ -135,7 +142,12 @@ export default function Navbar() {
         </>
       ) : (
         <>
-          <FlowbiteNavbar.Toggle />
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden text-primary-default"
+          >
+            <BiMenu size={30} />{" "}
+          </button>
 
           <FlowbiteNavbar.Collapse>
             <Link to="/login">
@@ -152,6 +164,8 @@ export default function Navbar() {
           </FlowbiteNavbar.Collapse>
         </>
       )}
+
+      <MobileNavigation isOpen={isOpen} setIsOpen={setIsOpen} />
     </FlowbiteNavbar>
   );
 }
