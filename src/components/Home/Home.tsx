@@ -3,7 +3,7 @@ import Products from "../Products/Products";
 
 export default function Home() {
   return (
-    <div>
+    <div className="space-y-20">
       <Categories />
 
       <Products />

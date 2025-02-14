@@ -4,6 +4,7 @@ import fetchData from "../../utils/fetchData";
 import BrandCard from "../BrandCard/BrandCard";
 import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
+import NoDataAvailable from "../shared/NoDataAvailable";
 
 export default function Brands() {
   const {
@@ -15,7 +16,8 @@ export default function Brands() {
   } = useQuery<BrandsType>({
     queryKey: ["brands"],
     queryFn: () => fetchData<BrandsType>({ url: "/brands" }),
-    staleTime: 5 * 60 * 1000,
+    staleTime: Infinity,
+    refetchInterval: Infinity,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -31,10 +33,17 @@ export default function Brands() {
 
   return (
     <section className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
-      <h1>Our Trusted Brands.</h1>
-      {brandsData?.data?.map((brand) => (
-        <BrandCard key={brand._id} {...brand} />
-      ))}
+      <h1 className="col-span-full max-w-md mx-auto">Our Trusted Brands.</h1>
+
+      {brandsData?.data?.length ? (
+        brandsData?.data?.map((brand) => (
+          <BrandCard key={brand._id} {...brand} />
+        ))
+      ) : (
+        <div className="col-span-full">
+          <NoDataAvailable name="brands" />
+        </div>
+      )}
     </section>
   );
 }

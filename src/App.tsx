@@ -2,7 +2,6 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./providers/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ModalProvider } from "./providers/modal";
 import { Toaster } from "sonner";
 import { FormLoadingProvider } from "./providers/FormLoading";
 
@@ -11,14 +10,11 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <FormLoadingProvider>
-          <RouterProvider router={router} />
-        </FormLoadingProvider>
+      <FormLoadingProvider>
+        <RouterProvider router={router} />
+      </FormLoadingProvider>
 
-        <Toaster theme="light" richColors closeButton />
-      </ModalProvider>
-
+      <Toaster theme="light" richColors closeButton />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 export default function useScrollTop() {
   const pathname = useLocation()?.pathname;
+
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const yOffset = window?.scrollY;
@@ -13,7 +15,7 @@ export default function useScrollTop() {
         behavior: "smooth",
       });
     }
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   return null;
 }

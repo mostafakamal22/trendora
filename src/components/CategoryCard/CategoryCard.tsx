@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import { Category } from "../../types";
 
-export default function CategoryCard({ name, image }: Category) {
+export default function CategoryCard({ name, image, _id }: Category) {
   return (
-    <div className="card cursor-pointer relative group">
+    <Link to={`/products?category[in]=${_id}`} className="card relative group">
       <img
         src={image}
         alt={name}
@@ -19,6 +20,6 @@ export default function CategoryCard({ name, image }: Category) {
       <div className="px-3 py-2 text-center absolute bottom-2 left-[15%] right-[15%] bg-custom-fadeOrange rounded-lg font-bold">
         <h4>{name}</h4>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,31 +1,12 @@
-import useModal from "@/hooks/useModal";
+import { Link } from "react-router-dom";
 import { Brand } from "../../types";
 
-export default function BrandCard({ name, image }: Brand) {
-  const { setChildren, openModal, setTitle } = useModal();
-
-  function handleOpenBrand() {
-    setTitle(name);
-
-    setChildren(
-      <div className="flex justify-center items-center gap-2 cursor-pointer">
-        <div className="basis-1/2">
-          <h1 className="text-custom-orange">{name}</h1>
-          <p>{name}</p>
-        </div>
-        <div className="basis-1/2">
-          <img alt={name} src={image} loading="lazy" />
-        </div>
-      </div>
-    );
-
-    openModal();
-  }
-
+export default function BrandCard({ name, image, _id }: Brand) {
   return (
-    <div
-      onClick={handleOpenBrand}
+    <Link
+      to={`/products?brand=${_id}`}
       className="card p-4 hover:scale-105 cursor-pointer"
+      title="Shop brand's products"
     >
       {image ? (
         <img
@@ -42,6 +23,6 @@ export default function BrandCard({ name, image }: Brand) {
       <h3 className="mt-2 text-lg font-semibold text-gray-800 text-center">
         {name}
       </h3>
-    </div>
+    </Link>
   );
 }

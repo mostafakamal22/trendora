@@ -5,6 +5,7 @@ import CategoryCard from "../CategoryCard/CategoryCard";
 import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
+import CategoriesHeader from "./CategoriesHeader";
 
 export default function Categories() {
   const {
@@ -16,7 +17,8 @@ export default function Categories() {
   } = useQuery<CategoriesType>({
     queryKey: ["categories"],
     queryFn: () => fetchData<CategoriesType>({ url: "/categories" }),
-    staleTime: 5 * 60 * 1000,
+    staleTime: Infinity,
+    refetchInterval: Infinity,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -32,13 +34,16 @@ export default function Categories() {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
-      <h1>Trendy Picks, Crafted for You.</h1>
+      <CategoriesHeader />
+
       {categoriesData?.data?.length ? (
         categoriesData.data.map((category) => (
           <CategoryCard key={category._id} {...category} />
         ))
       ) : (
-        <NoDataAvailable name="categories" />
+        <div className="col-span-full">
+          <NoDataAvailable name="categories" />
+        </div>
       )}
     </section>
   );

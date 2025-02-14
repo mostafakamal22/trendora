@@ -5,20 +5,10 @@ import { ErrorBoundaryFullback } from "../shared/ErrorBoundaryFullback";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import useProtectedRoutes from "../../hooks/useProtectedRoutes";
-import useModal from "@/hooks/useModal";
-import Modal from "../ui/Modal";
 import MainSpinner from "../shared/MainSpinner";
 import useScrollTop from "@/hooks/useScrollTop";
 
 export default function MainLayout() {
-  const { isOpen, children, closeModal, title, desc } = useModal();
-
-  const onChange = (open: boolean) => {
-    if (!open) {
-      closeModal();
-    }
-  };
-
   const { loading, token, publicRoutes } = useProtectedRoutes();
 
   const { pathname } = useLocation();
@@ -55,14 +45,6 @@ export default function MainLayout() {
         </ErrorBoundary>
       </main>
 
-      <Modal
-        isOpen={isOpen}
-        onChange={onChange}
-        title={title}
-        description={desc}
-      >
-        {children}
-      </Modal>
       <Footer />
     </>
   );
