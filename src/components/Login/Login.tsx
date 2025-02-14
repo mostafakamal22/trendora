@@ -89,20 +89,6 @@ export default function Login() {
         console.error(error);
       },
     });
-
-    // try {
-    //   await postData({
-    //     url: "/auth/forgotPasswords",
-    //     data: { email: values.email },
-    //   });
-
-    //   navigate("/forgot-password", { state: { email: values.email } });
-    // } catch (error) {
-    //   console.error("Forgot password request failed:", error);
-    //   handleError(error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
   }
 
   return (
