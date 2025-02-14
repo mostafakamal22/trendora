@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Brands as BrandsType } from "../../types";
 import fetchData from "../../utils/fetchData";
 import BrandCard from "../BrandCard/BrandCard";
-import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
+import BrandsSkeleton from "./BrandsSkeleton";
 
 export default function Brands() {
   const {
@@ -23,7 +23,7 @@ export default function Brands() {
   });
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <BrandsSkeleton />;
   }
 
   if (isError) {
