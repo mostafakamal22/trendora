@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Categories as CategoriesType } from "../../types";
 import fetchData from "../../utils/fetchData";
 import CategoryCard from "../CategoryCard/CategoryCard";
-import MainSpinner from "../shared/MainSpinner";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import CategoriesHeader from "./CategoriesHeader";
+import CategoriesSkeleton from "./CategoriesSkeleton";
 
 export default function Categories() {
   const {
@@ -24,7 +24,7 @@ export default function Categories() {
   });
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <CategoriesSkeleton />;
   }
 
   if (isError) {
