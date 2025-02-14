@@ -1,11 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Zoom } from "swiper/modules";
 import { PaginationOptions } from "swiper/types";
 import { Product } from "@/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/zoom";
 
 import "@/assets/styles/swiper.css";
 
@@ -21,12 +22,13 @@ export default function ProductCarousel({ images, title }: Product) {
   return (
     <Swiper
       navigation
+      zoom={{ maxRatio: 1.5, panOnMouseMove: true }}
       pagination={pagination}
-      modules={[Navigation, Pagination]}
+      modules={[Navigation, Pagination, Zoom]}
       className="mySwiper overflow-hidden rounded-md"
     >
       {images?.map((image, index) => (
-        <SwiperSlide key={index}>
+        <SwiperSlide key={index} zoom>
           <img src={image} alt={title} className="w-full rounded-lg" />
         </SwiperSlide>
       ))}
