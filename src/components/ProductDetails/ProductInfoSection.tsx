@@ -19,7 +19,7 @@ export default function ProductInfoSection({
   );
 
   return (
-    <section className="max-w-[35rem] mx-auto self-stretch flex justify-stretch flex-col p-6 text-left lg:flex-basis-1/2 lg:mx-0">
+    <section className="max-w-[35rem] mx-auto self-stretch flex justify-stretch flex-col p-6 text-left lg:basis-1/2 lg:mx-0">
       <h3>{brand?.name}</h3>
       <h2>{title}</h2>
       <p>{description}</p>

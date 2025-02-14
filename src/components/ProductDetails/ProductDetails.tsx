@@ -7,11 +7,11 @@ import postData from "../../utils/postData";
 import ProductCarousel from "./ProductCarousel";
 import ProductInfoSection from "./ProductInfoSection";
 import FetchDataError from "../shared/FetchDataError";
-import MainSpinner from "../shared/MainSpinner";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
 import deleteData from "@/utils/deleteData";
+import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 
 export default function ProductDetails() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -87,7 +87,7 @@ export default function ProductDetails() {
   }
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <ProductDetailsSkeleton />;
   }
 
   if (isError) {
