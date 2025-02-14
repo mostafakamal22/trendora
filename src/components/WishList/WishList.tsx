@@ -5,11 +5,11 @@ import fetchData from "../../utils/fetchData";
 import WishlistProductCard from "../WishlistProductCard/WishlistProductCard";
 import postData from "../../utils/postData";
 import deleteData from "../../utils/deleteData";
-import MainSpinner from "../shared/MainSpinner";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import FetchDataError from "../shared/FetchDataError";
 import useFormLoading from "@/hooks/useFormLoading";
 import handleToastPromise from "@/utils/handleToastPromise";
+import WishlistSkeleton from "./WishlistSkeleton";
 
 export default function Wishlist() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -95,7 +95,7 @@ export default function Wishlist() {
   }
 
   if (isLoading || isFetching) {
-    return <MainSpinner size={50} className="h-[50vh]" />;
+    return <WishlistSkeleton />;
   }
 
   if (isError) {
