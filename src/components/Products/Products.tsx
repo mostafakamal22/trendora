@@ -22,6 +22,7 @@ export default function Products() {
   const pathname = useLocation()?.pathname;
 
   const { isFormLoading, setIsFormLoading } = useFormLoading();
+
   const [searchKeyword, setSearchKeyword] = useState("");
 
   // Construct API URL dynamically from URL parameters
@@ -184,10 +185,8 @@ export default function Products() {
 
         {/* Filter Options */}
         <ProductsFilters
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          setSearchKeyword={setSearchKeyword}
           handleFilterChange={handleFilterChange}
+          setSearchKeyword={setSearchKeyword}
         />
 
         {filteredProducts?.length ? (

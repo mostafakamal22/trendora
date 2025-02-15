@@ -1,32 +1,20 @@
 import { Brands, Categories } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { SetURLSearchParams, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { twMerge } from "tailwind-merge";
-import { BsFillFilterCircleFill } from "react-icons/bs";
-import { useClickAway } from "@uidotdev/usehooks";
+import { useLocation, useSearchParams } from "react-router-dom";
 import fetchData from "@/utils/fetchData";
 
 type Props = {
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
   handleFilterChange: (key: string, value: string) => void;
-  searchParams: URLSearchParams;
-  setSearchParams: SetURLSearchParams;
 };
 
 export default function ProductsFilters({
-  searchParams,
   setSearchKeyword,
   handleFilterChange,
-  setSearchParams,
 }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const ref = useClickAway<HTMLDivElement>(() => {
-    setIsOpen(false);
-  });
-
   const pathname = useLocation()?.pathname;
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     data: categoriesData,
@@ -65,55 +53,31 @@ export default function ProductsFilters({
   if (pathname === "/") return null;
 
   return (
-    <div
-      className={twMerge(
-        "fixed top-0 z-10 w-60 min-h-screen flex flex-col items-center gap-3 px-3 py-5 bg-green-600 text-primary-peach shadow-lg transition-all",
-        isOpen ? "left-0" : "-left-60"
-      )}
-      ref={ref}
-    >
-      {/* Toggle Button */}
-      <button
-        className="absolute left-full top-1/3 p-2 bg-green-600 text-primary-peach rounded-r"
-        onClick={() => setIsOpen(!isOpen)}
-        title="Toggle filters"
-      >
-        <BsFillFilterCircleFill size={20} />
-      </button>
-
-      <h4 className="text-xl font-bold uppercase drop-shadow pb-4 mb-5 border-b border-b-primary-peach">
+    <div className="col-span-full bg-custom-fadeOrange text-primary-default grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 p-3 rounded-md shadow">
+      <h4 className="col-span-full text-sm font-bold uppercase pb-2 mb-3 border-b border-b-primary-peach">
         Filter Products
       </h4>
 
       {/* Search Keyword */}
       <div className="w-full flex gap-2 text-xs font-bold">
-        <label
-          htmlFor="search-product"
-          className="bg-custom-fadeOrange text-primary-default p-1 rounded-md shadow flex place-items-center"
-        >
-          Name
-        </label>
         <input
-          id="search-product"
+          aria-label="Search product by name"
           type="text"
-          placeholder="Product name"
-          aria-label="product name"
-          onChange={(e) => setSearchKeyword(e.target.value.toLowerCase())}
+          placeholder="Search by name"
+          onChange={(e) => {
+            setSearchKeyword(e.target.value.toLowerCase());
+          }}
           className="form-input font-medium text-xs"
         />
       </div>
 
       {/* Category Filter */}
       <div className="w-full flex gap-2 text-xs font-bold">
-        <label
-          htmlFor="category"
-          className="bg-custom-fadeOrange text-primary-default p-1 rounded-md shadow flex place-items-center"
-        >
-          Category
-        </label>
         <select
           id="category"
-          onChange={(e) => handleFilterChange("category[in]", e.target.value)}
+          onChange={(e) => {
+            handleFilterChange("category[in]", e.target.value);
+          }}
           value={searchParams?.get("category[in]") || ""}
           className="form-input font-medium text-xs"
         >
@@ -128,15 +92,11 @@ export default function ProductsFilters({
 
       {/* Brand Filter */}
       <div className="w-full flex gap-2 text-xs font-bold">
-        <label
-          htmlFor="brand"
-          className="bg-custom-fadeOrange text-primary-default p-1 rounded-md shadow flex place-items-center"
-        >
-          Brand
-        </label>
         <select
-          id="brand"
-          onChange={(e) => handleFilterChange("brand", e.target.value)}
+          aria-label="brand"
+          onChange={(e) => {
+            handleFilterChange("brand", e.target.value);
+          }}
           value={searchParams?.get("brand") || ""}
           className="form-input font-medium text-xs"
         >
@@ -151,15 +111,8 @@ export default function ProductsFilters({
 
       {/* Prices Filters */}
       <div className="w-full flex gap-2 text-xs font-bold">
-        <label
-          htmlFor="price"
-          className="bg-custom-fadeOrange text-primary-default p-1 rounded-md shadow flex place-items-center"
-        >
-          Price
-        </label>
-
         <select
-          id="price"
+          aria-label="price"
           onChange={(e) => {
             const value = e.target.value;
             if (value) {
@@ -177,32 +130,45 @@ export default function ProductsFilters({
           className="form-input font-medium text-xs"
         >
           <option value="">All Prices</option>
-          <option value="0-50">Under $50</option>
-          <option value="50-100">$50 - $100</option>
-          <option value="100-200">$100 - $200</option>
+          <option value="0-200">Under $200</option>
           <option value="200-500">$200 - $500</option>
-          <option value="500-">Above $500</option>
+          <option value="500-1000">$500 - $1000</option>
+          <option value="1000-5000">$1000 - $5000</option>
+          <option value="5000-10000">$5000 - $10000</option>
+          <option value="10000-">Above $10000</option>
+        </select>
+      </div>
+
+      {/* Sort Price Filter */}
+      <div className="w-full flex gap-2 text-xs font-bold">
+        <select
+          aria-label="sort"
+          onChange={(e) => {
+            handleFilterChange("sort", e.target.value);
+          }}
+          value={searchParams?.get("sort") || ""}
+          className="form-input font-medium text-xs"
+        >
+          <option value="">Normal Sort</option>
+          <option value="-price">Price: High to Low</option>
+          <option value="+price">Price: Low to High</option>
         </select>
       </div>
 
       {/* Pages Limits */}
       <div className="w-full flex gap-2 text-xs font-bold">
-        <label
-          htmlFor="limit"
-          className="bg-custom-fadeOrange text-primary-default p-1 rounded-md shadow flex place-items-center"
-        >
-          Limit
-        </label>
         <select
-          id="limit"
-          onChange={(e) => handleFilterChange("limit", e.target.value)}
+          aria-label="limit"
+          onChange={(e) => {
+            handleFilterChange("limit", e.target.value);
+          }}
           value={searchParams?.get("limit") || "40"}
           className="form-input font-medium text-xs"
         >
-          <option value="15">15</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
+          <option value="15">15 Product/Page</option>
+          <option value="30">30 Product/Page</option>
+          <option value="40">40 Product/Page</option>
+          <option value="50">50 Product/Page</option>
         </select>
       </div>
     </div>
