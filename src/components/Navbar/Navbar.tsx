@@ -114,7 +114,9 @@ export default function Navbar() {
                 </span>
               </Dropdown.Header>
 
-              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/setting">Settings</Link>
+              </Dropdown.Item>
 
               <Dropdown.Divider />
               <Dropdown.Item className="text-red-500" onClick={handleLogout}>

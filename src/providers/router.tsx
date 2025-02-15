@@ -25,6 +25,7 @@ const Cart = lazy(() => import("../components/Cart/Cart"));
 const WishList = lazy(() => import("../components/WishList/WishList"));
 const Checkout = lazy(() => import("../components/Checkout/Checkout"));
 const Orders = lazy(() => import("../components/Orders/Orders"));
+const Setting = lazy(() => import("../components/Setting/Setting"));
 
 export const router = createBrowserRouter([
   {
@@ -68,8 +69,12 @@ export const router = createBrowserRouter([
         Component: Checkout,
       },
       {
-        path: "allorders",
+        path: "/allorders",
         Component: Orders,
+      },
+      {
+        path: "/setting",
+        Component: Setting,
       },
       {
         path: "/login",

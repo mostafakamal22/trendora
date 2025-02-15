@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const registerSchema: Yup.Schema = Yup.object({
+export const editUserInfoSchema = Yup.object({
   name: Yup.string()
     .required("Name is required")
     .matches(
@@ -10,15 +10,6 @@ export const registerSchema: Yup.Schema = Yup.object({
   email: Yup.string()
     .required("Email is required")
     .email("Enter a valid email address"),
-  password: Yup.string()
-    .required("Password is required")
-    .matches(
-      /^[A-Za-z][A-Za-z0-9]{5,8}$/,
-      "Password must be 6-9 characters, start with a letter, and contain only letters and numbers"
-    ),
-  rePassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords do not match")
-    .required("Confirm your password"),
   phone: Yup.string()
     .matches(
       /^(?:\+20|0)?1[0125]\d{8}$/,

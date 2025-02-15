@@ -183,3 +183,16 @@ export interface User {
   email: string;
   phone: string;
 }
+
+export interface User {
+  role: string;
+  active: boolean;
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  addresses: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}

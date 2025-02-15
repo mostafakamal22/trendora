@@ -8,7 +8,7 @@ import {
   HiShoppingBag,
   HiUsers,
 } from "react-icons/hi";
-import { BsX } from "react-icons/bs";
+import { BsGearFill, BsX } from "react-icons/bs";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUsers } from "react-icons/fa6";
@@ -123,6 +123,29 @@ export default function MobileNavigation({ isOpen, setIsOpen }: Props) {
                 </Sidebar.ItemGroup>
 
                 <Sidebar.ItemGroup>
+                  <Link
+                    to="/setting"
+                    onClick={() => setIsOpen(false)}
+                    className="block"
+                  >
+                    <Sidebar.Item
+                      icon={() => (
+                        <BsGearFill
+                          className="text-green-600 -mr-1"
+                          size={20}
+                        />
+                      )}
+                      className={twMerge(
+                        "uppercase font-playfair leading-4",
+                        pathname === "/setting" &&
+                          "bg-primary-peach text-green-600 font-bold"
+                      )}
+                      as="span"
+                    >
+                      Setting
+                    </Sidebar.Item>
+                  </Link>
+
                   <button
                     type="button"
                     className="w-full text-left"
