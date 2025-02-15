@@ -6,7 +6,7 @@ import logo from "@/assets/images/logo-1.png";
 export default function Footer() {
   return (
     <FlowbitFooter
-      className="mt-10 container mx-auto w-full border-t border-primary-sunset rounded-none shadow-none"
+      className="mt-10 rounded-none shadow-none bg-gradient-to-r from-gray-100 to-gray-300 text-gray-800"
       container
       theme={{
         groupLink: {
@@ -18,7 +18,7 @@ export default function Footer() {
         },
       }}
     >
-      <div className="w-full">
+      <div className="w-full container mx-auto">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div>
             <FlowbitFooter.Brand
