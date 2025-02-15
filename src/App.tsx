@@ -15,7 +15,11 @@ function App() {
       </FormLoadingProvider>
 
       <Toaster theme="light" richColors closeButton />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools
+        initialIsOpen={false}
+        position="right"
+        buttonPosition="bottom-left"
+      />
     </QueryClientProvider>
   );
 }

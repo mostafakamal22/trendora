@@ -7,6 +7,7 @@ import Navbar from "../Navbar/Navbar";
 import useProtectedRoutes from "../../hooks/useProtectedRoutes";
 import MainSpinner from "../shared/MainSpinner";
 import useScrollTop from "@/hooks/useScrollTop";
+import ScrollTopButton from "../shared/ScrollTopButton";
 
 export default function MainLayout() {
   const { loading, token, publicRoutes } = useProtectedRoutes();
@@ -44,7 +45,7 @@ export default function MainLayout() {
           </Suspense>
         </ErrorBoundary>
       </main>
-
+      <ScrollTopButton />
       <Footer />
     </>
   );
