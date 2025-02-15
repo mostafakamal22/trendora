@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { WishList } from "../../types";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useLocalStorage, useWindowScroll } from "@uidotdev/usehooks";
 import fetchData from "../../utils/fetchData";
 import WishlistProductCard from "../WishlistProductCard/WishlistProductCard";
 import postData from "../../utils/postData";
@@ -15,6 +15,8 @@ export default function Wishlist() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
+
+  const [, scrollTo] = useWindowScroll();
 
   const queryClient = useQueryClient();
 
@@ -47,6 +49,10 @@ export default function Wishlist() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
+        scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
       },
       successMsg: "Product removed from your wishlist.",
@@ -84,6 +90,10 @@ export default function Wishlist() {
       })(),
       onSuccess: () => {
         setIsFormLoading(false);
+        scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         queryClient.invalidateQueries({ queryKey: ["wishlist"], exact: true });
         queryClient.refetchQueries({ queryKey: ["cart"], exact: true });
       },

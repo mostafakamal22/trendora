@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cart as CartType } from "../../types";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useLocalStorage, useWindowScroll } from "@uidotdev/usehooks";
 import { useNavigate } from "react-router-dom";
 import { BsCreditCard, BsTrashFill } from "react-icons/bs";
 import fetchData from "../../utils/fetchData";
@@ -19,6 +19,8 @@ export default function Cart() {
   const [token] = useLocalStorage("token");
 
   const [, setUserId] = useLocalStorage("userId");
+
+  const [, scrollTo] = useWindowScroll();
 
   const navigate = useNavigate();
 
@@ -54,6 +56,10 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
+        scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product removed from your cart.",
@@ -76,6 +82,10 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
+        scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Product quantity updated.",
@@ -97,6 +107,10 @@ export default function Cart() {
       }),
       onSuccess: () => {
         setIsFormLoading(false);
+        scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         queryClient.invalidateQueries({ queryKey: ["cart"], exact: true });
       },
       successMsg: "Your cart is empty now.",
