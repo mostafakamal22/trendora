@@ -10,6 +10,7 @@ export default function useProtectedRoutes() {
 
   const publicRoutes = useMemo(
     () => [
+      "/",
       "/login",
       "/register",
       "/login/",

@@ -24,7 +24,7 @@ type Props = {
 // Centralized route configuration
 const routes = [
   {
-    path: "/",
+    path: "/home",
     label: "Home",
     icon: <HiChartPie className="text-green-600 -mr-1" size={20} />,
   },
@@ -76,7 +76,7 @@ export default function MobileNavigation({ isOpen, setIsOpen }: Props) {
     setUserId(null);
     setUser(null);
 
-    navigate("/login");
+    navigate("/");
   }
 
   return (
@@ -109,6 +109,9 @@ export default function MobileNavigation({ isOpen, setIsOpen }: Props) {
                         className={twMerge(
                           "uppercase font-playfair leading-4",
                           pathname === route.path &&
+                            "bg-primary-peach text-green-600 font-bold",
+                          pathname === "/" &&
+                            route.path === "/home" &&
                             "bg-primary-peach text-green-600 font-bold"
                         )}
                         as="span"

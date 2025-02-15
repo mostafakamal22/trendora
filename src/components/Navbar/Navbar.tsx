@@ -12,7 +12,7 @@ import logo from "@/assets/images/logo-1.png";
 import MobileNavigation from "./MobileNavigation";
 
 const routes = [
-  { path: "/", label: "Home" },
+  { path: "/home", label: "Home" },
   { path: "/cart", label: "Cart" },
   { path: "/wishlist", label: "Wishlist" },
   { path: "/products", label: "Products" },
@@ -49,7 +49,7 @@ export default function Navbar() {
     setUserId(null);
     setUser(null);
 
-    navigate("/login");
+    navigate("/");
   }
 
   return (
@@ -133,7 +133,13 @@ export default function Navbar() {
           <FlowbiteNavbar.Collapse>
             {routes.map((route) => (
               <Link key={route.path} to={route.path}>
-                <FlowbiteNavbar.Link as="div" active={pathname === route.path}>
+                <FlowbiteNavbar.Link
+                  as="div"
+                  active={
+                    pathname === route.path ||
+                    (pathname === "/" && route.path === "/home")
+                  }
+                >
                   {route.label}
                 </FlowbiteNavbar.Link>
               </Link>
@@ -152,7 +158,7 @@ export default function Navbar() {
           <FlowbiteNavbar.Collapse>
             <Link to="/login">
               <FlowbiteNavbar.Link as={"div"} active={pathname === "/login"}>
-                Login
+                Sign in
               </FlowbiteNavbar.Link>
             </Link>
 
