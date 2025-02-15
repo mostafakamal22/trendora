@@ -12,6 +12,7 @@ import NoDataAvailable from "../shared/NoDataAvailable";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
 import CartSkeleton from "./CartSkeleton";
+import GradientText from "../ui/GradientText";
 
 export default function Cart() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -137,7 +138,11 @@ export default function Cart() {
 
   return (
     <section className="mt-5 md:mt-10">
-      <h1>{cartData?.numOfCartItems ? "Almost Yours!" : "Your Cart"}</h1>
+      <GradientText>
+        <h1 className="uppercase">
+          {cartData?.numOfCartItems ? "Almost Yours!" : "Your Cart"}
+        </h1>
+      </GradientText>
 
       {cartData?.numOfCartItems ? (
         <>

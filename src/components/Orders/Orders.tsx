@@ -6,6 +6,7 @@ import fetchData from "../../utils/fetchData";
 import FetchDataError from "../shared/FetchDataError";
 import NoDataAvailable from "../shared/NoDataAvailable";
 import OrdersSkeleton from "./OrdersSkeleton";
+import GradientText from "../ui/GradientText";
 
 export default function Orders() {
   const [token] = useLocalStorage("token");
@@ -40,7 +41,9 @@ export default function Orders() {
 
   return (
     <section className="mt-5 md:mt-10">
-      <h1 className="mb-5">Track Your Orders ({ordersData?.length ?? 0}) </h1>
+      <GradientText>
+        <h1 className="mb-5 uppercase">Track Your Orders </h1>
+      </GradientText>
 
       {ordersData?.length ? (
         <div className="grid gap-4 mt-4">

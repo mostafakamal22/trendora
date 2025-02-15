@@ -50,7 +50,8 @@ export default function ProductsFilters({
     return null;
   }
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/home" || pathname === "/home/")
+    return null;
 
   return (
     <div className="col-span-full bg-custom-fadeOrange text-primary-default grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 p-3 rounded-md shadow">

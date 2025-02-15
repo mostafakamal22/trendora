@@ -10,6 +10,7 @@ import ErrorMsg from "../shared/ErrorMsg";
 import toast from "@/lib/sonner";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
+import GradientText from "../ui/GradientText";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -93,7 +94,9 @@ export default function Login() {
 
   return (
     <section className="max-w-2xl w-full mx-auto">
-      <h1 className="font-extrabold uppercase">Sign In & Keep Shopping</h1>
+      <GradientText>
+        <h1 className="font-extrabold uppercase">Sign In & Keep Shopping</h1>
+      </GradientText>
 
       <form onSubmit={handleSubmit} className="space-y-8 mt-10">
         <div className="mb-3">

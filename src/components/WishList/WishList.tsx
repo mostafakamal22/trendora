@@ -10,6 +10,7 @@ import FetchDataError from "../shared/FetchDataError";
 import useFormLoading from "@/hooks/useFormLoading";
 import handleToastPromise from "@/utils/handleToastPromise";
 import WishlistSkeleton from "./WishlistSkeleton";
+import GradientText from "../ui/GradientText";
 
 export default function Wishlist() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -115,7 +116,11 @@ export default function Wishlist() {
 
   return (
     <section className="mt-5 md:mt-10">
-      <h2>{wishlistData?.count ? "Your Favorite Picks" : "Your Wishlist"}</h2>
+      <GradientText>
+        <h1 className="uppercase">
+          {wishlistData?.count ? "Your Favorite Picks" : "Your Wishlist"}
+        </h1>
+      </GradientText>
 
       {wishlistData?.count ? (
         <div className="grid gap-4 mt-4">

@@ -40,14 +40,25 @@ export default {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
+        shine: {
+          "0%": { "background-position": "100%" },
+          "100%": { "background-position": "-100%" },
+        },
         contentShow: {
           "0%": { opacity: 0, transform: "translate(-50%, -45%)" },
           "100%": { opacity: 1, transform: "translate(-50%, -50%)" },
+        },
+        gradient: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
         },
       },
       animation: {
         overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        shine: "shine 5s linear infinite",
+        gradient: "gradient 8s linear infinite",
       },
     },
   },

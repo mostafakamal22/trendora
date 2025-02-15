@@ -1,6 +1,7 @@
 import leftModel from "@/assets/images/left_model.png";
 import rightModel from "@/assets/images/right_model.png";
 import { Link } from "react-router-dom";
+import ShinyText from "../ui/ShinyText";
 
 export default function Hero() {
   return (
@@ -37,9 +38,9 @@ export default function Hero() {
         {/* Shop Now Button */}
         <Link
           to="/products"
-          className="block w-fit mx-auto mt-6 px-6 py-3 bg-gray-700 hover:bg-gray-800 text-white transition font-semibold rounded-lg shadow uppercase"
+          className="block w-fit mx-auto mt-6 px-6 py-3 bg-gray-800 text-white transition font-semibold rounded-lg shadow uppercase"
         >
-          Shop Now
+          <ShinyText text="Shop Now" speed={4} />
         </Link>
 
         {/* Bottom Phrase */}
