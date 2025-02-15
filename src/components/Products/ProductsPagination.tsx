@@ -12,7 +12,8 @@ export default function ProductsPagination({
 }: Props) {
   const pathname = useLocation()?.pathname;
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/home" || pathname === "/home/")
+    return null;
 
   if (productsData?.metadata.numberOfPages === 1) return null;
 
