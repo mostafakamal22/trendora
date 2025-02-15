@@ -2,6 +2,12 @@ import { Footer as FlowbitFooter } from "flowbite-react";
 import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 
 import logo from "@/assets/images/logo-1.png";
+import android from "@/assets/images/get-google-play.png";
+import ios from "@/assets/images/get-apple-store.png";
+import amazon from "@/assets/images/amazon-pay.png";
+import paypal from "@/assets/images/paypal.png";
+import mastercard from "@/assets/images/mastercard.webp";
+import amazonExpress from "@/assets/images/American-Express-Color.png";
 
 export default function Footer() {
   return (
@@ -26,8 +32,35 @@ export default function Footer() {
               src={logo}
               alt="Logo"
               name="TRENDORA"
+              loading="lazy"
               className="font-playfair text-3xl"
             />
+
+            <FlowbitFooter.Divider className="border-primary-peach" />
+
+            <div className="flex justify-center items-center sm:flex-col sm:items-start lg:flex-row lg:items-center gap-2">
+              <h5 className="text-xs font-bold uppercase">Download Our App</h5>
+
+              <a href="#0">
+                <img
+                  className="w-24"
+                  src={android}
+                  alt="Get App On Play Store"
+                  loading="lazy"
+                />
+              </a>
+
+              <a href="#0">
+                <img
+                  className="w-24"
+                  src={ios}
+                  alt="Get App On Apple Store"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+
+            <FlowbitFooter.Divider className="border-primary-peach sm:hidden" />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
@@ -40,7 +73,7 @@ export default function Footer() {
                   href="#"
                   className="hover:text-primary-default transition-all ease-in-out duration-200"
                 >
-                  Trendora
+                  Shop
                 </FlowbitFooter.Link>
                 <FlowbitFooter.Link
                   href="#"
@@ -110,7 +143,39 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
         <FlowbitFooter.Divider className="border-primary-peach" />
+
+        <div className="flex justify-center items-center flex-col gap-2 flex-wrap">
+          <h5 className="text-xs font-bold uppercase w-full">
+            Our Payment Partners
+          </h5>
+
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-3 items-center">
+            <img
+              className="w-20"
+              src={amazon}
+              alt="Amazon Pay"
+              loading="lazy"
+            />
+            <img
+              className="w-20"
+              src={amazonExpress}
+              alt="Amazon Express"
+              loading="lazy"
+            />
+            <img className="w-20" src={paypal} alt="Paypal" loading="lazy" />
+            <img
+              className="w-20"
+              src={mastercard}
+              alt="Mastercard"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <FlowbitFooter.Divider className="border-primary-peach" />
+
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <FlowbitFooter.Copyright
             href="#"
