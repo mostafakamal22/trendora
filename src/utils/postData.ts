@@ -18,7 +18,5 @@ export default async function postData<T>({
     data
   );
 
-  console.log(res.data);
-
   return res.data;
 }

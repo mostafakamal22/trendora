@@ -18,7 +18,5 @@ export default async function patchData<T>({
     data
   );
 
-  console.log(res.data);
-
   return res.data;
 }
