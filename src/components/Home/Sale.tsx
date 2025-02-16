@@ -1,12 +1,12 @@
+import { Link } from "react-router-dom";
 import leftModel from "@/assets/images/left_model.png";
 import rightModel from "@/assets/images/right_model.png";
-import { Link } from "react-router-dom";
 import ShinyText from "../ui/ShinyText";
 
 export default function Sale() {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center gap-6 mt-5 md:mt-10">
-      {/* Left Image */}
+      {/* Left Model */}
       <div className="hidden lg:block w-full max-w-sm lg:max-w-md">
         <img
           src={leftModel}
@@ -52,7 +52,7 @@ export default function Sale() {
         </div>
       </div>
 
-      {/* Right Image */}
+      {/* Right Model */}
       <div className="hidden lg:block w-full max-w-sm lg:max-w-md">
         <img
           src={rightModel}
