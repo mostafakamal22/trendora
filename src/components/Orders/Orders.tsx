@@ -56,7 +56,7 @@ export default function Orders() {
                 Order ID: {order._id}
               </h3>
 
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 items-center">
                 <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
                   Total: ${order.totalOrderPrice.toFixed(2)}
                 </p>
