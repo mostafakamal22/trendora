@@ -57,7 +57,8 @@ const ChangePasswordDrawer = ({
         setIsFormLoading(false);
         setIsOpen(false);
       },
-      successMsg: "Your password has been changed.",
+      successMsg:
+        "Your password has been changed successfully. Please log in again.",
       onError: () => {
         setIsFormLoading(false);
       },
@@ -67,7 +68,7 @@ const ChangePasswordDrawer = ({
   return (
     <Drawer open={isOpen} onClose={() => setIsOpen(false)} position="bottom">
       <Drawer.Header
-        title="Change Password"
+        title="Change Your Password"
         titleIcon={() => <BsPassFill className="mr-2" size={20} />}
       />
       <Drawer.Items className="p-4">
@@ -134,7 +135,7 @@ const ChangePasswordDrawer = ({
             className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full"
             disabled={!isValid || isSubmitting || isFormLoading}
           >
-            {isSubmitting || isFormLoading ? "Loading..." : "Change Password"}
+            {isSubmitting || isFormLoading ? "Changing..." : "Change"}
           </button>
         </form>
       </Drawer.Items>
