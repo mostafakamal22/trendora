@@ -30,6 +30,7 @@ export default function EditUserInfoDrawer({
   const [token] = useLocalStorage("token");
 
   const {
+    setErrors,
     getFieldProps,
     handleSubmit,
     errors,
@@ -47,6 +48,10 @@ export default function EditUserInfoDrawer({
   });
 
   async function handleEdeditUserInfo(values: Partial<User>) {
+    if (values?.email?.toLowerCase() === userData?.email?.toLowerCase()) {
+      return setErrors({ email: "Please provide new email" });
+    }
+
     setIsFormLoading(true);
 
     handleToastPromise({
