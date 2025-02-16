@@ -55,10 +55,10 @@ export default function Setting() {
         <h1 className="uppercase">Update Your Setting</h1>
       </GradientText>
 
-      <div className="p-3 bg-green-200 shadow rounded-md mt-5">
+      <div className="max-w-3xl w-full mx-auto p-3 bg-green-200 shadow rounded-md mt-5">
         <h3 className="text-gray-800">Current information</h3>
 
-        <div className="max-w-xl w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 mt-2">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-2">
           <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow flex justify-between gap-6 sm:justify-center">
             <span className="sm:hidden">Username</span>{" "}
             <span className="truncate">{userData?.data?.name}</span>

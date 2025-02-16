@@ -7,9 +7,9 @@ export default function SettingSkeleton() {
         <h1 className="uppercase">Update Your Setting</h1>
       </GradientText>
 
-      <div className="p-3 bg-primary-vibrant rounded-md animate-pulse">
+      <div className="max-w-3xl w-full mx-auto p-3 bg-primary-vibrant rounded-md animate-pulse">
         <div className="h-8 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
-        <div className="max-w-md w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 mt-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-4">
           <div className="h-6 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
           <div className="h-6 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
           <div className="h-6 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
