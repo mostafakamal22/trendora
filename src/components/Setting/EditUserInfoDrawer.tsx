@@ -56,7 +56,7 @@ export default function EditUserInfoDrawer({
 
     handleToastPromise({
       promise: updateData({
-        url: "/users/updateMe/",
+        url: "/users/updateMe",
         data: values,
         token: token as string,
       }),
@@ -65,7 +65,8 @@ export default function EditUserInfoDrawer({
         setIsFormLoading(false);
         setIsOpen(false);
       },
-      successMsg: "Your info has been Updated.",
+      successMsg:
+        "Your info has been updated successfully. Please log in again.",
       onError: () => {
         setIsFormLoading(false);
       },
@@ -75,7 +76,7 @@ export default function EditUserInfoDrawer({
   return (
     <Drawer open={isOpen} onClose={() => setIsOpen(false)} position="bottom">
       <Drawer.Header
-        title="Edit Info"
+        title="Update Your Info"
         titleIcon={() => <FaUser className="mr-2" size={20} />}
       />
 
@@ -141,7 +142,7 @@ export default function EditUserInfoDrawer({
             className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full"
             disabled={!isValid || isSubmitting || isFormLoading}
           >
-            {isSubmitting || isFormLoading ? "Loading..." : "Update Info"}
+            {isSubmitting || isFormLoading ? "Updating..." : "Update"}
           </button>
         </form>
       </Drawer.Items>
