@@ -161,7 +161,7 @@ export default function MobileNavigation({ isOpen, setIsOpen }: Props) {
                           size={20}
                         />
                       )}
-                      className="uppercase font-playfair font-bold leading-4 cursor-pointer bg-red-600 text-primary-peach border border-red-600 shadow"
+                      className="uppercase font-playfair font-bold leading-4 cursor-pointer bg-red-600 *:hover:text-red-600 text-primary-peach border border-red-600 shadow"
                       as="span"
                     >
                       Logout
