@@ -16,15 +16,15 @@ export default function Hero() {
         <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
           <Link
             to="/products"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-default hover:bg-primary-sunset focus:ring-4 focus:ring-primary-300 focus:ring-primary-900"
+            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-default hover:bg-primary-sunset transition-all duration-300 ease-in-out"
           >
             Shop now
           </Link>
           <a
             href="#"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100"
+            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 transition-all duration-300 ease-in-out"
           >
-            Learn more
+            Explore more
           </a>
         </div>
         <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
@@ -32,7 +32,10 @@ export default function Hero() {
             FEATURED IN
           </span>
           <div className="flex flex-wrap justify-center items-center mt-8 text-gray-500 sm:justify-between">
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-gray-800">
+            <a
+              href="#"
+              className="mr-5 mb-5 lg:mb-0 hover:text-gray-800 transition-all duration-300 ease-in-out"
+            >
               <svg
                 className="h-5 sm:h-8"
                 viewBox="0 0 132 29"
@@ -78,7 +81,10 @@ export default function Hero() {
               </svg>
             </a>
 
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-gray-800">
+            <a
+              href="#"
+              className="mr-5 mb-5 lg:mb-0 hover:text-gray-800 transition-all duration-300 ease-in-out"
+            >
               <svg
                 className="h-6 sm:h-10"
                 viewBox="0 0 208 42"
@@ -99,7 +105,10 @@ export default function Hero() {
                 />
               </svg>
             </a>
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-gray-800">
+            <a
+              href="#"
+              className="mr-5 mb-5 lg:mb-0 hover:text-gray-800 transition-all duration-300 ease-in-out"
+            >
               <svg
                 className="h-7 sm:h-11"
                 viewBox="0 0 120 41"
