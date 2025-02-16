@@ -115,7 +115,9 @@ export default function Navbar() {
               </Dropdown.Header>
 
               <Dropdown.Item>
-                <Link to="/setting">Settings</Link>
+                <Link to="/setting" className="w-full text-left">
+                  Settings
+                </Link>
               </Dropdown.Item>
 
               <Dropdown.Divider />
