@@ -12,6 +12,7 @@ export default function Sale() {
           src={leftModel}
           alt="Left Model"
           className="w-full h-auto object-cover rounded-lg"
+          loading="lazy"
         />
       </div>
 
@@ -57,6 +58,7 @@ export default function Sale() {
           src={rightModel}
           alt="Right Model"
           className="w-full h-auto object-cover rounded-lg"
+          loading="lazy"
         />
       </div>
     </section>
