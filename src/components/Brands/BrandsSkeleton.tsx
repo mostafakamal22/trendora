@@ -1,10 +1,14 @@
+import GradientText from "../ui/GradientText";
+
 export default function BrandsSkeleton() {
   return (
     <div
       role="status"
       className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10"
     >
-      <h1 className="col-span-full max-w-md mx-auto">Our Trusted Brands.</h1>
+      <GradientText className="col-span-full mx-auto">
+        <h1 className="max-w-md mx-auto uppercase">Our Trusted Brands</h1>
+      </GradientText>
 
       {Array.from({ length: 6 }).map((_, index) => (
         <div key={index} className="card p-4 animate-pulse">

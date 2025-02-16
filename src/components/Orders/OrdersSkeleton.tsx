@@ -1,14 +1,15 @@
+import GradientText from "../ui/GradientText";
+
 export default function OrdersSkeleton() {
   return (
     <div role="status" className="mt-5 md:mt-10">
-      <h1 className="mb-5">Track Your Orders </h1>
+      <GradientText>
+        <h1 className="mb-5 uppercase">Track Your Orders </h1>
+      </GradientText>
 
       <div className="grid gap-4 mt-4">
         {[...Array(3)].map((_, index) => (
-          <div
-            key={index}
-            className="border p-4 rounded-lg shadow-md bg-gray-50 animate-pulse"
-          >
+          <div key={index} className="p-4 animate-pulse">
             {/* Order ID */}
             <div className="h-6 bg-primary-peach rounded-full w-1/2 mb-4 mx-auto" />
 
