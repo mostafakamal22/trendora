@@ -55,19 +55,26 @@ export default function Setting() {
         <h1 className="uppercase">Update Your Setting</h1>
       </GradientText>
 
-      <div className="max-w-xl w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-2 mt-4">
-        <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow">
-          {userData?.data?.name}
-        </p>
-        <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow">
-          {userData?.data?.email}
-        </p>
-        <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow">
-          {userData?.data?.phone}
-        </p>
+      <div className="p-3 bg-green-200 shadow rounded-md mt-5">
+        <h3 className="text-gray-800">Current information</h3>
+
+        <div className="max-w-xl w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 mt-2">
+          <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow flex justify-between gap-6 sm:justify-center">
+            <span className="sm:hidden">Username</span>{" "}
+            <span className="truncate">{userData?.data?.name}</span>
+          </p>
+          <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow flex justify-between gap-6 sm:justify-center">
+            <span className="sm:hidden">Email</span>{" "}
+            <span className="truncate">{userData?.data?.email}</span>
+          </p>
+          <p className="bg-green-600 text-primary-peach px-2 py-1 rounded-md shadow flex justify-between gap-6 sm:justify-center">
+            <span className="sm:hidden">Phone</span>{" "}
+            <span className="truncate">{userData?.data?.phone}</span>
+          </p>
+        </div>
       </div>
 
-      <div className="max-w-md w-full mx-auto grid grid-cols-1 xs:grid-cols-2 justify-between items-center gap-4 mt-10">
+      <div className="max-w-md w-full mx-auto grid grid-cols-1 xs:grid-cols-2 justify-between items-center gap-4 mt-5">
         <button
           className="btn text-sm sm:text-base px-4 py-2 !bg-blue-600 !shadow-blue-600"
           disabled={isFormLoading}
