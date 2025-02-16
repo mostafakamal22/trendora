@@ -38,7 +38,7 @@ export default function MainLayout() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen container text-center mx-auto px-3 py-5 md:py-10">
+      <main className="sm:min-h-[70vh] container text-center mx-auto px-3 py-5 md:py-10">
         <ErrorBoundary FallbackComponent={ErrorBoundaryFullback}>
           <Suspense fallback={<MainSpinner size={50} className="h-[50vh]" />}>
             <Outlet />
