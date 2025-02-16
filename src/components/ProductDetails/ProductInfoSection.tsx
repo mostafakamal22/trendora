@@ -29,15 +29,15 @@ export default function ProductInfoSection({
           ${priceAfterDiscount || price}
         </span>
 
-        {priceAfterDiscount && (
+        {priceAfterDiscount ? (
           <span className="text-gray-500 line-through">${price}</span>
-        )}
+        ) : null}
 
-        {priceAfterDiscount && (
+        {priceAfterDiscount ? (
           <span className="bg-custom-fadeOrange text-custom-orange p-1 rounded-md font-semibold">
             {((1 - priceAfterDiscount / price) * 100).toFixed(0)}%
           </span>
-        )}
+        ) : null}
       </div>
 
       <button
