@@ -9,14 +9,20 @@ export default function ProductsHeader() {
     <header
       className={twMerge(
         pathname !== "/" &&
-          pathname !== "/home" &&
-          pathname !== "/home/" &&
+          !pathname?.startsWith("/home") &&
+          !pathname?.startsWith("/productDetails") &&
           "col-span-full max-w-xl mx-auto"
       )}
     >
-      <GradientText>
-        <h1 className="uppercase">Trendy Looks, Timeless Style.</h1>
-      </GradientText>
+      {pathname?.startsWith("/productDetails") ? (
+        <GradientText>
+          <h2 className="uppercase">Related Products</h2>
+        </GradientText>
+      ) : (
+        <GradientText>
+          <h1 className="uppercase">Trendy Looks, Timeless Style.</h1>
+        </GradientText>
+      )}
     </header>
   );
 }

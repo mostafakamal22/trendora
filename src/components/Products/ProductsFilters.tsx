@@ -50,7 +50,11 @@ export default function ProductsFilters({
     return null;
   }
 
-  if (pathname === "/" || pathname === "/home" || pathname === "/home/")
+  if (
+    pathname === "/" ||
+    pathname.startsWith("/home") ||
+    pathname.startsWith("/productDetails")
+  )
     return null;
 
   return (
@@ -64,7 +68,7 @@ export default function ProductsFilters({
         <input
           aria-label="Search product by name"
           type="text"
-          placeholder="Search by name"
+          placeholder="Search product in this page"
           onChange={(e) => {
             setSearchKeyword(e.target.value.toLowerCase());
           }}

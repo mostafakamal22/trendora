@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cart, Products as ProductsType, WishList } from "../../types";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import fetchData from "../../utils/fetchData";
 import ProductCard from "../ProductCard/ProductCard";
 import FetchDataError from "../shared/FetchDataError";
@@ -16,7 +16,9 @@ import ProductsFilters from "./ProductsFilters";
 import ProductsHeader from "./ProductsHeader";
 import ProductsSkeleton from "./ProductsSkeleton";
 
-export default function Products() {
+type Props = { category?: string; productIdToExclude?: string };
+
+export default function Products({ category, productIdToExclude }: Props) {
   const [token] = useLocalStorage("token");
 
   const pathname = useLocation()?.pathname;
@@ -28,11 +30,19 @@ export default function Products() {
   // Construct API URL dynamically from URL parameters
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const constructUrl = () => {
+  const constructUrl = useMemo(() => {
     const baseUrl = "/products";
 
-    if (pathname === "/") {
+    if (pathname === "/" || pathname?.startsWith("/home")) {
       return `${baseUrl}?limit=20`;
+    }
+
+    if (pathname?.startsWith("/products") && searchParams?.size === 0) {
+      return `${baseUrl}?page=1`;
+    }
+
+    if (pathname?.startsWith("/productDetails")) {
+      return `${baseUrl}?category[in]=${category}&limit=6`;
     }
 
     const queryStrings: string[] = [];
@@ -43,7 +53,16 @@ export default function Products() {
     });
 
     return `${baseUrl}?${queryStrings.join("&")}`;
-  };
+  }, [category, pathname, searchParams]);
+
+  const queryKey = useMemo(() => {
+    if (category) return `category[in]=${category}&limit=6`;
+
+    if (pathname?.startsWith("/products") && searchParams?.size === 0)
+      return "page=1";
+
+    return searchParams.toString();
+  }, [category, searchParams, pathname]);
 
   const queryClient = useQueryClient();
 
@@ -78,8 +97,8 @@ export default function Products() {
     error,
     isError,
   } = useQuery<ProductsType>({
-    queryKey: ["products", searchParams.toString()],
-    queryFn: () => fetchData<ProductsType>({ url: constructUrl() }),
+    queryKey: ["products", queryKey],
+    queryFn: () => fetchData<ProductsType>({ url: constructUrl }),
     staleTime: 5 * 60 * 1000,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -173,8 +192,10 @@ export default function Products() {
     return <FetchDataError name="products" />;
   }
 
-  const filteredProducts = productsData?.data?.filter((product) =>
-    product.title.toLowerCase().includes(searchKeyword)
+  const filteredProducts = productsData?.data?.filter(
+    (product) =>
+      product?._id !== productIdToExclude &&
+      product.title.toLowerCase().includes(searchKeyword)
   );
 
   return (

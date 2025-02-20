@@ -12,6 +12,7 @@ import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
 import deleteData from "@/utils/deleteData";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
+import RelatedProducts from "../Products/Products";
 
 export default function ProductDetails() {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
@@ -102,15 +103,24 @@ export default function ProductDetails() {
   const { data: product } = productData;
 
   return (
-    <div className="py-4 flex flex-col items-center lg:items-start lg:flex-row gap-8">
-      <ProductCarousel {...product} />
+    <>
+      <div className="py-4 flex flex-col items-center lg:items-start lg:flex-row gap-8">
+        <ProductCarousel {...product} />
 
-      <ProductInfoSection
-        onAddToCart={onAddToCart}
-        product={product}
-        isFormLoading={isFormLoading}
-        cartData={cartData}
-      />
-    </div>
+        <ProductInfoSection
+          onAddToCart={onAddToCart}
+          product={product}
+          isFormLoading={isFormLoading}
+          cartData={cartData}
+        />
+      </div>
+
+      <div className="mt-5 sm:mt-16 border-t border-primary-peach">
+        <RelatedProducts
+          category={productData?.data?.category?._id}
+          productIdToExclude={id}
+        />
+      </div>
+    </>
   );
 }
