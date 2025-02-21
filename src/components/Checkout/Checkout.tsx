@@ -67,10 +67,9 @@ export default function Checkout() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="mb-3">
-          <input
-            type="text"
+          <textarea
             id="details"
-            placeholder="details"
+            placeholder="Shipping details"
             aria-label="details"
             className={twMerge(
               "form-input",
@@ -89,7 +88,7 @@ export default function Checkout() {
           <input
             type="text"
             id="phone"
-            placeholder="phone"
+            placeholder="Phone number"
             aria-label="phone"
             className={twMerge(
               "form-input",
@@ -106,7 +105,7 @@ export default function Checkout() {
           <input
             type="text"
             id="city"
-            placeholder="city"
+            placeholder="City"
             aria-label="city"
             className={twMerge(
               "form-input",
