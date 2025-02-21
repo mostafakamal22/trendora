@@ -1,28 +1,23 @@
 import { Drawer } from "flowbite-react";
 import { Dispatch, SetStateAction } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { User } from "@/types";
+import { Address } from "@/types";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { editUserInfoSchema } from "@/schema/editUserInfo";
-import { FaUser } from "react-icons/fa6";
+import { addNewAddressSchema } from "@/schema/addNewAddress";
+import { FaAddressCard } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import { useFormik } from "formik";
 import handleToastPromise from "@/utils/handleToastPromise";
 import useFormLoading from "@/hooks/useFormLoading";
-import updateData from "@/utils/updateData";
 import ErrorMsg from "../shared/ErrorMsg";
+import postData from "@/utils/postData";
 
-interface EditUserInfoDrawerProps {
+type Props = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  userData?: User;
-}
+};
 
-export default function EditUserInfoDrawer({
-  isOpen,
-  setIsOpen,
-  userData,
-}: EditUserInfoDrawerProps) {
+export default function AddNewAddressDrawer({ isOpen, setIsOpen }: Props) {
   const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
@@ -30,7 +25,6 @@ export default function EditUserInfoDrawer({
   const queryClient = useQueryClient();
 
   const {
-    setErrors,
     getFieldProps,
     handleSubmit,
     errors,
@@ -39,24 +33,21 @@ export default function EditUserInfoDrawer({
     isValid,
   } = useFormik({
     initialValues: {
-      name: userData?.name || "",
-      email: userData?.email || "",
-      phone: userData?.phone || "",
+      name: "",
+      details: "",
+      phone: "",
+      city: "",
     },
-    validationSchema: editUserInfoSchema,
-    onSubmit: handleEditUserInfo,
+    validationSchema: addNewAddressSchema,
+    onSubmit: handleAddNewAddress,
   });
 
-  async function handleEditUserInfo(values: Partial<User>) {
-    if (values?.email?.toLowerCase() === userData?.email?.toLowerCase()) {
-      return setErrors({ email: "Please provide new email" });
-    }
-
+  async function handleAddNewAddress(values: Omit<Address, "_id">) {
     setIsFormLoading(true);
 
     handleToastPromise({
-      promise: updateData({
-        url: "/users/updateMe",
+      promise: postData({
+        url: "/addresses",
         data: values,
         token: token as string,
       }),
@@ -65,8 +56,7 @@ export default function EditUserInfoDrawer({
         setIsFormLoading(false);
         setIsOpen(false);
       },
-      successMsg:
-        "Your info has been updated successfully. Please log in again.",
+      successMsg: "New address has been added successfully.",
       onError: () => {
         setIsFormLoading(false);
       },
@@ -76,8 +66,8 @@ export default function EditUserInfoDrawer({
   return (
     <Drawer open={isOpen} onClose={() => setIsOpen(false)} position="bottom">
       <Drawer.Header
-        title="Update Your Info"
-        titleIcon={() => <FaUser className="mr-2" size={20} />}
+        title="Add New Address"
+        titleIcon={() => <FaAddressCard className="mr-2" size={20} />}
       />
 
       <Drawer.Items className="p-4">
@@ -86,7 +76,7 @@ export default function EditUserInfoDrawer({
             <input
               type="text"
               id="name"
-              placeholder="Name"
+              placeholder="Address name"
               aria-label="name"
               className={twMerge(
                 "form-input",
@@ -100,21 +90,20 @@ export default function EditUserInfoDrawer({
           </div>
 
           <div className="mb-3">
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              aria-label="email"
+            <textarea
+              id="details"
+              placeholder="Address details"
+              aria-label="details"
               className={twMerge(
                 "form-input",
-                errors.email && touched.email
+                errors.details && touched.details
                   ? "border-red-500 bg-custom-fadeOrange"
                   : "border-gray-300"
               )}
-              {...getFieldProps("email")}
+              {...getFieldProps("details")}
             />
-            {errors.email && touched.email && (
-              <ErrorMsg message={errors.email} />
+            {errors.details && touched.details && (
+              <ErrorMsg message={errors.details} />
             )}
           </div>
 
@@ -137,12 +126,29 @@ export default function EditUserInfoDrawer({
             )}
           </div>
 
+          <div className="mb-3">
+            <input
+              type="text"
+              id="city"
+              placeholder="City"
+              aria-label="city"
+              className={twMerge(
+                "form-input",
+                errors.city && touched.city
+                  ? "border-red-500 bg-custom-fadeOrange"
+                  : "border-gray-300"
+              )}
+              {...getFieldProps("city")}
+            />
+            {errors.city && touched.city && <ErrorMsg message={errors.city} />}
+          </div>
+
           <button
             type="submit"
             className="btn text-base font-bold uppercase font-playfair px-2 py-3 w-full"
             disabled={!isValid || isSubmitting || isFormLoading}
           >
-            {isSubmitting || isFormLoading ? "Updating..." : "Update"}
+            {isSubmitting || isFormLoading ? "Adding..." : "Add"}
           </button>
         </form>
       </Drawer.Items>

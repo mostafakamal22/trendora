@@ -192,7 +192,15 @@ export interface User {
   email: string;
   phone: string;
   password: string;
-  addresses: string[];
+  addresses: Address[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Address {
+  _id: string;
+  name: string;
+  details: string;
+  phone: string;
+  city: string;
 }
