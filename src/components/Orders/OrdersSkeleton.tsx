@@ -14,7 +14,7 @@ export default function OrdersSkeleton() {
             <div className="h-6 bg-primary-peach rounded-full w-1/2 mb-4 mx-auto" />
 
             {/* Order Info Grid */}
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5">
               <div className="h-4 bg-primary-peach rounded-md" />
               <div className="h-4 bg-primary-peach rounded-md" />
               <div className="h-4 bg-primary-peach rounded-md" />

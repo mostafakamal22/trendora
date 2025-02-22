@@ -56,19 +56,19 @@ export default function Orders() {
                 Order ID: {order._id}
               </h3>
 
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 items-center">
-                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 items-center">
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
                   Total: ${order.totalOrderPrice.toFixed(2)}
                 </p>
-                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
                   Payment:{" "}
                   {order.paymentMethodType === "card" ? "Card" : "Cash"}
                 </p>
-                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
                   Status: {order.isPaid ? "Paid" : "Pending"} |{" "}
                   {order.isDelivered ? "Delivered" : "Not Delivered"}
                 </p>
-                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+                <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
                   Shipping: {order.shippingAddress?.city},{" "}
                   {order.shippingAddress?.details}
                 </p>
