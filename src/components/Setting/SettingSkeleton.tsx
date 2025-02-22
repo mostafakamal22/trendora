@@ -21,7 +21,7 @@ export default function SettingSkeleton() {
         </div>
       </div>
 
-      <div className="max-w-3xl w-full mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 justify-between items-center gap-2 mt-5">
+      <div className="max-w-3xl w-full mx-auto grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 justify-between items-center gap-2 mt-5">
         <div className="h-10 bg-primary-peach rounded-full w-full" />
         <div className="h-10 bg-primary-peach rounded-full w-full" />
         <div className="h-10 bg-primary-peach rounded-full w-full" />

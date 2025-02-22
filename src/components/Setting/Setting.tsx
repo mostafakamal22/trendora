@@ -63,14 +63,14 @@ export default function Setting() {
         <UserAddresses addresses={userData?.data?.addresses || []} />
       </div>
 
-      <div className="max-w-3xl w-full mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 justify-between items-center gap-4 mt-5">
+      <div className="max-w-3xl w-full mx-auto grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 justify-between items-center gap-4 mt-5">
         <button
           className="btn text-sm sm:text-base px-4 py-2 !bg-blue-600 !shadow-blue-600"
           disabled={isFormLoading}
           onClick={() => setIsEditOpen(true)}
         >
           <FaUser size={18} />
-          Update Info
+          Update Information
         </button>
         <button
           className="btn text-sm sm:text-base px-4 py-2 !bg-rose-600 !shadow-rose-600"
