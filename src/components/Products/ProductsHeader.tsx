@@ -16,7 +16,7 @@ export default function ProductsHeader() {
     >
       {pathname?.startsWith("/productDetails") ? (
         <GradientText>
-          <h2 className="uppercase">Related Products</h2>
+          <h2 className="uppercase">Inspired by Your Style</h2>
         </GradientText>
       ) : (
         <GradientText>
