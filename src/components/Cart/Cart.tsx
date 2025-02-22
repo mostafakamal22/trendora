@@ -146,11 +146,11 @@ export default function Cart() {
 
       {cartData?.numOfCartItems ? (
         <>
-          <div className="max-w-md w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-2 mt-4">
-            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+          <div className="max-w-md w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-1.5 mt-4">
+            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
               Total items: {cartData.numOfCartItems}
             </p>
-            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow">
+            <p className="bg-green-600 text-primary-peach p-1 rounded-md shadow m-0">
               Total price: ${cartData.data?.totalCartPrice}
             </p>
           </div>

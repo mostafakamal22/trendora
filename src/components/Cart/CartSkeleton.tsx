@@ -1,7 +1,8 @@
 export default function CartSkeleton() {
   return (
     <div role="status" className="mt-5 md:mt-10">
-      <div className="max-w-md w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-2 mt-4 animate-pulse">
+      <div className="max-w-md w-full mx-auto flex flex-col xs:flex-row justify-between items-center gap-1.5 mt-4 animate-pulse">
+        <div className="h-6 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
         <div className="h-6 w-3/4 mx-auto bg-primary-peach rounded-md"></div>
       </div>
 
