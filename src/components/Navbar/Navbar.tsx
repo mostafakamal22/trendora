@@ -88,7 +88,7 @@ export default function Navbar() {
             <Link to="/cart" className="relative" title="Shoping Cart Items">
               <BsCart className="text-gray-400" size={30} />
 
-              <span className="h-5 w-5 flex justify-center items-center absolute bottom-1 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
+              <span className="h-5 w-5 flex justify-center items-center absolute right-0 bottom-0 lg:-bottom-1 lg:-right-1 bg-primary-default text-white font-semibold text-xs p-1 rounded-full shadow">
                 {cartData?.numOfCartItems ?? "-"}
               </span>
             </Link>
@@ -104,6 +104,9 @@ export default function Navbar() {
                   rounded
                 />
               }
+              theme={{
+                inlineWrapper: "hidden lg:flex items-center",
+              }}
             >
               <Dropdown.Header>
                 <span className="block text-sm truncate">
