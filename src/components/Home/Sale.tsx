@@ -26,22 +26,22 @@ export default function Sale() {
         </div>
 
         {/* Sale Text */}
-        <h1 className="text-4xl lg:text-6xl font-bold mt-8 sm:mt-12 lg:mt-16">
+        <h1 className="text-5xl lg:text-7xl font-extrabold mt-8 sm:mt-12 lg:mt-16 drop-shadow-2xl tracking-wider">
           ULTIMATE
         </h1>
-        <h2 className="text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-sunset to-primary-default drop-shadow">
+        <h2 className="text-7xl lg:text-9xl font-extrabold text-primary-peach/15 text-stroke drop-shadow-2xl font-kumbh">
           SALE
         </h2>
-        <p className="text-lg uppercase mt-2 tracking-wide text-white">
+        <p className="text-lg uppercase mt-2 tracking-widest text-white font-playfair font-semibold">
           New Collection
         </p>
 
-        {/* Shop Now Button */}
+        {/* Browse Collection Button */}
         <Link
           to="/products"
           className="block w-fit mx-auto mt-6 px-6 py-3 bg-gray-800 text-white transition font-semibold rounded-lg shadow uppercase"
         >
-          <ShinyText text="Shop Now" speed={4} />
+          <ShinyText text="Browse Collection" speed={4} />
         </Link>
 
         {/* Bottom Phrase */}
