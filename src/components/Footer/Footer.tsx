@@ -52,7 +52,7 @@ export default function Footer() {
 
               <a href="#0">
                 <img
-                  className="w-24"
+                  className="w-[86px]"
                   src={ios}
                   alt="Get App On Apple Store"
                   loading="lazy"
@@ -151,7 +151,7 @@ export default function Footer() {
             Our Payment Partners
           </h5>
 
-          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-3 items-center">
+          <div className="grid grid-cols-4 gap-4 items-center">
             <img
               className="w-20"
               src={amazon}
