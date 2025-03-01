@@ -34,9 +34,28 @@ export default function Brands() {
 
   return (
     <section className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 md:mt-10">
-      <GradientText className="col-span-full mx-auto">
-        <h1 className="max-w-md mx-auto uppercase">Our Trusted Brands</h1>
-      </GradientText>
+      <header className="col-span-full mx-auto">
+        <GradientText>
+          <h1 className="max-w-md mx-auto uppercase">Our Trusted Brands</h1>
+        </GradientText>
+
+        <p className="text-sm mb-5">
+          Boycott zionist{" "}
+          <a
+            href="https://bdnaash.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary-default font-semibold"
+          >
+            supporters'
+          </a>{" "}
+          brands and products.
+          <br />
+          <span className="inline-block mt-2 uppercase font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-slate-300 to-red-600">
+            FREE Palestine
+          </span>
+        </p>
+      </header>
 
       {brandsData?.data?.length ? (
         brandsData?.data?.map((brand) => (
