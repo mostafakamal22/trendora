@@ -37,6 +37,11 @@ export default function ProductCard({
     (p) => p?.product?._id === id
   );
 
+  // Hide specific product
+  if (id === "6428e509dc1175abc65ca07e") {
+    return null;
+  }
+
   return (
     <Link to={`/productDetails/${id}`} className="card relative group">
       <div className="absolute top-0 w-full h-80 bg-transparent group-hover:bg-black/15 transition-all duration-200 ease-in-out">

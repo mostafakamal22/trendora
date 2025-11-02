@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Cart, Product } from "../../types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useEffect } from "react";
 import fetchData from "../../utils/fetchData";
 import postData from "../../utils/postData";
 import ProductCarousel from "./ProductCarousel";
@@ -15,11 +16,20 @@ import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import RelatedProducts from "../Products/Products";
 
 export default function ProductDetails() {
+  const navigate = useNavigate();
+
   const { isFormLoading, setIsFormLoading } = useFormLoading();
 
   const [token] = useLocalStorage("token");
 
   const { id } = useParams();
+
+  // Rredirct user to not found page if the product is the hidden one
+  useEffect(() => {
+    if (id === "6428e509dc1175abc65ca07e") {
+      navigate("/not-found");
+    }
+  }, [id, navigate]);
 
   const queryClient = useQueryClient();
 
