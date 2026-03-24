@@ -54,10 +54,15 @@
   }
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 1rem;
-  font-weight: 700;
+.swiper-button-next > svg,
+.swiper-button-prev > svg {
+  width: 8px;
+  height: 16px;
+}
+
+.swiper-navigation-icon path {
+  filter: drop-shadow(1px 0 0 currentColor) drop-shadow(0 1px 0 currentColor)
+    drop-shadow(-1px 0 0 currentColor) drop-shadow(0 -1px 0 currentColor);
 }
 
 .swiper-pagination {
